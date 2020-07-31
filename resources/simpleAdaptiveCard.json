@@ -1,0 +1,33 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text":"subject",
+                    "size": "large",
+                    "wrap": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "date",
+                    "isSubtle": true,
+                    "spacing": "medium",
+                    "wrap": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Name"
+                },
+ {
+                    "type": "TextBlock",
+                    "text": "LastName"
+                }
+            ]
+        }
+    ]
+}

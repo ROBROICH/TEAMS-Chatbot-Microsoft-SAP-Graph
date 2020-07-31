@@ -1,0 +1,51 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "2.0.0",
+  "id": "5d9be15f-3256-40c7-b3d1-7c7b8cc67e06",
+  "packageName": "com.microsoft.teams.samples",
+  "developer": {
+    "name": "Microsoft",
+    "websiteUrl": "https://example.azurewebsites.net",
+    "privacyUrl": "https://example.azurewebsites.net/privacy",
+    "termsOfUseUrl": "https://example.azurewebsites.net/termsofuse"
+  },
+  "icons": {
+    "color": "icon-color.png",
+    "outline": "icon-outline.png"
+  },
+  "name": {
+    "short": "MS and SAP Graph Chatbot",
+    "full": "Microsoft and SAP Graph Chatbot"
+  },
+  "description": {
+    "short": "Chatbot to demonstrate Microsoft and SAP Graph integration",
+    "full": "Chatbot to demonstrate Microsoft and SAP Graph integration"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "5d9be15f-3256-40c7-b3d1-7c7b8cc67e06",
+      "scopes": [
+        "personal",
+        "groupchat",
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "token.botframework.com",
+    "*.ngrok.io",
+    "graph.microsoft.com"
+  ],
+  "webApplicationInfo": {
+    "id": "0cb25ed4-7c9a-4153-bfc4-65a39522ed29",
+    "resource": "https://graph.microsoft.com/"
+  }
+}
