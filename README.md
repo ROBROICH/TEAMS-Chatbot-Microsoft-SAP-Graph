@@ -13,8 +13,8 @@ This hands-on tutorial will describe the complete setup of the development envir
 
 # Business scenario and context
 This lab is developed based on a basic hypothetical business scenario with the following assumptions and process:
-* A call center agent or frontline employee with Microsoft Teams a preferred user-interface
-* A customer requesting an update about an order via email 
+* Call center agent or frontline employee with Microsoft Teams a preferred user-interface
+* Customer requesting an update about an order via email 
 * The call center agent processes the customer inquiry utilizing a chatbot in teams
 * The first step of the business process is the search the agents Outlook inbox for customer inquiries.  (MS Graph API)
 * After the customer is identified the chatbot then enables the agent to search within the SAP sales order for the open order status (SAP Graph API)
