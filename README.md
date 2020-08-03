@@ -43,25 +43,22 @@ and [46. Teams authentication]( https://github.com/microsoft/BotBuilder-Samples/
 The deployment of the chatbot will be implemented using a local version and an external tunnel to forward the communication to the Azure chatbot channel. 
 After the time-consuming installation prework the manual deployment can be done with a few lines Windows Power Shell. 
 The specific next steps to implement are: 
-*	Open Visual Studio Code
-*	Open two PowerShell terminals 
-
-*	The commands for the first terminal: 
+•	Open Visual Studio Code
+•	Open two PowerShell terminals 
+•	The commands for the first terminal: 
 ```
 git clone https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph.git
 cd .\TEAMS-Chatbot-Microsoft-SAP-Graph\
 node install 
 node .\index.js
 ```
-* The command for the second terminal: 
+•	The commands for the second terminal: 
 ```
 ngrok http -host-header=rewrite 3978
-
 ```
-
-
-
-. 
+After the successful implementation of the steps the result should look as following: 
+![VisualStudioCode]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ScenarioOverview.png)
+ 
 
 
 
