@@ -57,15 +57,7 @@ node .\index.js
 ngrok http -host-header=rewrite 3978
 ```
 After the successful implementation of the steps the result should look as following: 
-![VisualStudioCode]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ScenarioOverview.png)
+![VisualStudioCode]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/VisualStudioCodeConfig.png)
  
-
-
-
-
-
-
-
-
 
 
