@@ -35,12 +35,16 @@ const CONFIRM_PROMPT_OAUTH = 'CONFIRM_PROMPT';
 const TEXT_PROMPT = 'TEXT_PROMPT';
 
 
+
 class UserProfileDialog extends ComponentDialog {
+    
+    //The user interaction flow is defined in the constructor 
     constructor(userState) {
         super('userProfileDialog');
 
         this.userProfile = userState.createProperty(USER_PROFILE);
 
+        //Prompt for OAUTH
         this.addDialog(
             new OAuthPrompt(OAUTH_PROMPT, {
                 connectionName: process.env.connectionName,
@@ -53,6 +57,7 @@ class UserProfileDialog extends ComponentDialog {
 
         this.addDialog(new ConfirmPrompt(CONFIRM_PROMPT_OAUTH));
 
+        //Start the user interaction / waterfall dialog 
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
             this.promptStep.bind(this),
             this.loginStep.bind(this),
@@ -65,7 +70,6 @@ class UserProfileDialog extends ComponentDialog {
 
         this.initialDialogId = WATERFALL_DIALOG;
 
-        //this.testCard = require('../resources/simpleAdaptiveCard.json');
 
     }
 
@@ -86,7 +90,7 @@ class UserProfileDialog extends ComponentDialog {
         }
     }
 
-
+    //Here we start 
     async promptStep(stepContext) {
         //var simpleSAPGraphClient = new SimpleSAPGraphClient();
         //simpleSAPGraphClient.getSAPGraphData();
@@ -182,6 +186,8 @@ class UserProfileDialog extends ComponentDialog {
                 case 'me':
                     await OAuthHelpers.listMe(step.context, tokenResponse);
                     break;
+                
+                //This case is relevant for the hands-on lab. Search in the inbox via MS Graph 
                 case 'inbox':
                     await OAuthHelpers.listRecentMail(step.context, tokenResponse);
                     break;
@@ -197,7 +203,7 @@ class UserProfileDialog extends ComponentDialog {
         return await step.endDialog();
     }
 
-
+    //Get the data from the SAP Graph 
     async sapGraphStep(step) {
         
         const parts = (step.result || '').split(' ');
@@ -225,6 +231,7 @@ class UserProfileDialog extends ComponentDialog {
 
         let numberOfSalesOrders = salesOrders.value.length;
 
+        //Create a hero card and loop over graph result set 
         const reply = { attachments: [], attachmentLayout: AttachmentLayoutTypes.List };
             for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
                 const salesOrder = salesOrders.value[cnt];
