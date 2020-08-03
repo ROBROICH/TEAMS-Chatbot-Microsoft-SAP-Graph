@@ -11,7 +11,7 @@ Further resources about to the Microsoft- and SAP-Graph:
 Regarding the Microsoft Graph demonstrating Azure Active Directory (AD) functionality like SSO and OAuth is intended as an important aspect of this exercise. 
 Furthermore, this hands-on tutorial will describe the complete setup of the development from environment scratch, for enabling developers to extend this example with their own ideas or customer scenarios. 
 # Business scenario and context
-This lab is developed based on a basic hypothetical business scenario with the following assumptions and process:
+This lab is developed based on a basic theoretical business scenario with the following assumptions and process:
 * Call center agent or frontline employee with Microsoft Teams a preferred user-interface
 * Customer requesting an update about an order via email 
 * The call center agent processes the customer inquiry utilizing a chatbot in teams
@@ -36,10 +36,11 @@ Optional:
 * [Bot Builder samples]( https://github.com/microsoft/BotBuilder-Samples)
 * [Microsoft 365 developer sandbox]( https://developer.microsoft.com/en-us/microsoft-365/dev-program)
 The recommendation is as well to gain knowledge about Bot Builder by understanding the Bot Builder sample exercises. 
-The coding of this lab is implemented based on the Bot Builder sample 24. MS Graph authentication and 46. Teams authentication. 
+The coding of this lab is implemented based on the Bot Builder sample [24. MS Graph authentication]( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/24.bot-authentication-msgraph)
+and [46. Teams authentication] ( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/46.teams-auth)
+. 
 
-[24. MS Graph authentication]( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/24.bot-authentication-msgraph)
-[46. Teams authentication] ( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/46.teams-auth)
+
 
 
 
