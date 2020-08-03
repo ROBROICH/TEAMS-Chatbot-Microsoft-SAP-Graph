@@ -36,8 +36,31 @@ Optional:
 * [Bot Builder samples]( https://github.com/microsoft/BotBuilder-Samples)
 * [Microsoft 365 developer sandbox]( https://developer.microsoft.com/en-us/microsoft-365/dev-program)
 The recommendation is as well to gain knowledge about Bot Builder by understanding the Bot Builder sample exercises. 
-The coding of this lab is implemented based on the Bot Builder sample [24. MS Graph authentication]( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/24.bot-authentication-msgraph)
-and [46. Teams authentication] (https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/46.teams-auth)
+The source-code of this lab is implemented based on the Bot Builder sample [24. MS Graph authentication]( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/24.bot-authentication-msgraph)
+and [46. Teams authentication]( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/46.teams-auth)
+
+# Application deployment 
+The deployment of the chatbot will be implemented using a local version and an external tunnel to forward the communication to the Azure chatbot channel. 
+After the time-consuming installation prework the manual deployment can be done with a few lines Windows Power Shell. 
+The specific next steps to implement are: 
+*	Open Visual Studio Code
+*	Open two PowerShell terminals 
+
+*	The commands for the first terminal: 
+```
+git clone https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph.git
+cd .\TEAMS-Chatbot-Microsoft-SAP-Graph\
+node install 
+node .\index.js
+```
+* The command for the second terminal: 
+```
+ngrok http -host-header=rewrite 3978
+
+```
+
+
+
 . 
 
 
