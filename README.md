@@ -37,7 +37,7 @@ Optional:
 * [Microsoft 365 developer sandbox]( https://developer.microsoft.com/en-us/microsoft-365/dev-program)
 The recommendation is as well to gain knowledge about Bot Builder by understanding the Bot Builder sample exercises. 
 The coding of this lab is implemented based on the Bot Builder sample [24. MS Graph authentication]( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/24.bot-authentication-msgraph)
-and [46. Teams authentication] ( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/46.teams-auth)
+and [46. Teams authentication] (https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/46.teams-auth)
 . 
 
 
