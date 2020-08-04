@@ -15,7 +15,7 @@ Further resources about the Microsoft- and SAP-Graph:
 
 ![MICROSOFTGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/MICROSOFT_GRAPH.png)
 
-When implementing the Microsoft Graph demonstrating the Azure Active Directory (AD) integration with functionality like SSO and API permission is intended as an important aspect of this exercise. 
+When implementing the Microsoft Graph demonstrating the Azure Active Directory (AD) integration with functionality like SSO and API permissions is intended as an important aspect of this exercise. 
 
 Furthermore, this hands-on tutorial will describe the complete setup of the development from environment from scratch. This setup and corresponding documentation are intended for enabling developers to extend this example with their own ideas or customer scenarios. 
 # Business scenario and context
@@ -181,6 +181,8 @@ The following next steps are the first ideas for enhancements:
 * SAP Graph (Beta) with currently public Bearer token
 * Improve adaptive cards layout 
 * Implement Microsoft Graph Search API to search beyond the Outlook Inbox 
+
+
 
 
 
