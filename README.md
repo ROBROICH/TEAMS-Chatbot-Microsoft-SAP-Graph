@@ -147,9 +147,9 @@ After uploading the manifest.json file, the bot configuration in the Teams App S
 ![TEAMSAPPSTUDIO]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/TEAMS_APP_STUDIO.png)
 
 # Demo-flow and API consumption
-After successful local testing local bot in Teams the demo-flow will be as following: 
+After successful local testing local bot in Teams the demo-flow will be as following. 
 ## Azure AD logon and granting API permission for MS Graph 
-When the user logons for the first time the API permission for MS Graph have to be granted by the user: 
+When the user logons for the first time the API permission for MS Graph must be granted by the user: 
 ![DEMOFLOWAD1]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD1.png)
 ![DEMOFLOWAD2]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD2.png)
 After successful logon and API permission authorization the Outlook Inbox if the user will be displayed. In the demo the agent will look for customer e-mails asking for order statuses. 
@@ -158,6 +158,18 @@ The call-center agent will now pick a customer name and search for this customer
 *  Search for the SAP customer ID via first and last name.  
 *  Search for SAP sales orders based on the SAP customer ID queried previously. 
 ![DEMOFLOWSAPGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowSAPGraphQuery.png)
+For displaying the results of the Graph queries basic were implemented. 
+[Adaptive Cards]( https://docs.microsoft.com/en-us/adaptive-cards/)
+Here the demo ends for now and as further enhancement different actions could be triggered by the call-center agent now. One example could be sending an email with an update about the order status or a call via Teams. 
+
+# Summary and next steps 
+As stated at the beginning of this document, the intention of this lab is to enable developers in extending and modifying this starter implementation. 
+In addition, the motivation is to demonstrate how business processes based on Microsoft and SAP enterprise applications could be easily joined within an intuitive user-interface like the Azure Bot in Microsoft Teams and modern APIs like the SAP- and Microsoft-Graph:
+* SAP Graph (Beta) with currently public Bearer token
+* Improve adaptive cards layout 
+* Implement Microsoft Graph Search API to search beyond Inbox 
+
+
 
 
 
