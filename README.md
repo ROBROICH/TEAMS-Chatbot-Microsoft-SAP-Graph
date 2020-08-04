@@ -6,7 +6,9 @@ This hands-on lab will therefore demonstrate the implementation of an Azure bot 
 Both Graph solutions enable developers to build business application using a single API, from SAP or Microsoft, that transparently provides information from various backend applications. 
 Further resources about to the Microsoft- and SAP-Graph: 
 * [SAP Graph BETA]( https://beta.graph.sap/)
+![SAPGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/SAP_GRAPH.png)
 * [Microsoft Graph]( https://developer.microsoft.com/en-us/graph/graph-explorer)
+![MICROSOFTGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/MICROSOFT_GRAPH.png)
 
 Regarding the Microsoft Graph demonstrating Azure Active Directory (AD) functionality like SSO and OAuth is intended as an important aspect of this exercise. 
 Furthermore, this hands-on tutorial will describe the complete setup of the development from environment scratch, for enabling developers to extend this example with their own ideas or customer scenarios. 
@@ -76,7 +78,7 @@ MicrosoftAppPassword=Customer password from Bot channel
 connectionName=Identity provider connection 
 ```
 
-# Install and test the bot with the emulator and teams. 
+# Install and test the bot with the emulator and Teams. 
 To test the bot with the local bot emulator please implement this section of the tutorial: 
 *  [Install and test the bot in Teams]( https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#install-and-test-the-bot-in-teams).
 *  [Testing the bot locally in Teams
@@ -137,9 +139,13 @@ After finishing the two section above the TeamsAppManifest/manifest.json will be
 }
 
 ```
-
 After uploading the manifest.json file, the bot configuration in the Teams App Studio will look as following: 
 ![TEAMSAPPSTUDIO]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/TEAMS_APP_STUDIO.png)
+
+
+
+
+
 
 
 
