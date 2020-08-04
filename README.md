@@ -167,7 +167,10 @@ The call-center agent will now pick a customer name and search for this customer
 *  Search for SAP sales orders based on the SAP customer ID queried previously. 
 ![DEMOFLOWSAPGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowSAPGraphQuery.png)
 For displaying the results of the Graph queries basic [Adaptive Cards]( https://docs.microsoft.com/en-us/adaptive-cards/) were implemented. 
-Here the demo ends for now and as further enhancement different actions could be triggered by the call-center agent now. One example could be sending an email with an update about the order status or a call via Teams. 
+
+Here the demo ends for now and as further enhancement different actions could be triggered by the call-center agent now. 
+
+One example could be sending an email with an update about the order status or a call via Teams. 
 
 # Summary and next steps 
 As stated at the beginning of this document, the intention of this lab is to enable developers in extending and modifying this starter implementation. 
@@ -176,5 +179,8 @@ The following next steps are the first ideas for enhancements:
 * SAP Graph (Beta) with currently public Bearer token
 * Improve adaptive cards layout 
 * Implement Microsoft Graph Search API to search beyond the Outlook Inbox 
+
+
+
 
 
