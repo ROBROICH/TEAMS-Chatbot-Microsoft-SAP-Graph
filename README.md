@@ -82,9 +82,8 @@ connectionName=Identity provider connection
 
 # Install and test the bot with the emulator and Teams. 
 To test the bot with the local bot emulator please implement this section of the tutorial: 
-*  [Install and test the bot in Teams]( https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#install-and-test-the-bot-in-teams).
+*  [Test the bot using the Emulator]( https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#install-and-test-the-bot-in-teams).
 ![BOTEMULATOR]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ChatBotEmulator.png)
-
 
 *  [Testing the bot locally in Teams
 ]( https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#testing-the-bot-locally-in-teams)
@@ -146,4 +145,20 @@ After finishing the two section above the TeamsAppManifest/manifest.json will be
 ```
 After uploading the manifest.json file, the bot configuration in the Teams App Studio will look as following: 
 ![TEAMSAPPSTUDIO]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/TEAMS_APP_STUDIO.png)
+
+# Demo-flow and API consumption
+After successful local testing local bot in Teams the demo-flow will be as following: 
+## Azure AD logon and granting API permission for MS Graph 
+When the user logons for the first time the API permission for MS Graph have to be granted by the user. 
+![DEMOFLOWAD1]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD1.png)
+![DEMOFLOWAD2]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD2.png)
+
+
+
+
+
+
+
+
+
 
