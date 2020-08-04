@@ -38,7 +38,7 @@ The purpose of this lab is to demonstrate the simple integration of Microsoft an
 
 ![BusinessScenario]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ScenarioOverview.png)
 # Setup of the development environment 
-In order the run the lab and even more important to further extend this example, an essential aspect and exercise of this lab is to setup the development environment. Programming-environment and -language is Node.JS, therefore Java- or Java-Script knowledge is recommended. 
+In order to run the lab and even more important to further extend this example, an essential aspect and exercise of this lab is to setup the development environment. Programming-environment and -language is Node.JS, therefore Java- or Java-Script knowledge is recommended. 
 The first action or hands on exercise is to install the following components in the development environment: 
 * [Visual Studio Code]( https://code.visualstudio.com/download)
 * [Microsoft Graph]( https://developer.microsoft.com/en-us/graph/graph-explorer)
