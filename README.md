@@ -149,16 +149,15 @@ After uploading the manifest.json file, the bot configuration in the Teams App S
 # Demo-flow and API consumption
 After successful local testing local bot in Teams the demo-flow will be as following: 
 ## Azure AD logon and granting API permission for MS Graph 
-When the user logons for the first time the API permission for MS Graph have to be granted by the user. 
+When the user logons for the first time the API permission for MS Graph have to be granted by the user: 
 ![DEMOFLOWAD1]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD1.png)
 ![DEMOFLOWAD2]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD2.png)
-
-
-
-
-
-
-
+After successful logon and API permission authorization the Outlook Inbox if the user will be displayed. In the demo the agent will look for customer e-mails asking for order statuses. 
+![DEMOFLOWMSGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowMSGraphQuery.png)
+The call-center agent will now pick a customer name and search for this customer’s sales order via the SAP Graph. Technically the search query will invoke to SAP Graph APIs to:
+*  Search for the SAP customer ID via first and last name.  
+*  Search for SAP sales orders based on the SAP customer ID queried previously. 
+![DEMOFLOWSAPGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowSAPGraphQuery.png)
 
 
 
