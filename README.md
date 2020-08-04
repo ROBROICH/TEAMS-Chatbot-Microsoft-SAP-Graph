@@ -1,9 +1,9 @@
 # Hands-On Lab: Combining the Microsoft-Graph and SAP-Graph APIs in a Microsoft Teams and Azure Bot scenario. 
 
 # Introduction and motivation
-This hands-on lab uses Microsoft Teams as the preferred hub for teamwork and collaboration tool for today’s frontline and remote workers. Additionally Azure Bots, especially in the combination with Teams, are an impressive solution to efficiently guide internal employees and external clients through complex business processes spanning over multiple IT-backends like SAP and Office 365. 
+This hands-on lab facilitates Microsoft Teams as the preferred hub for teamwork and collaboration tool for today’s frontline and remote workers. Additionally Azure Bots, especially in the combination with Teams, are an impressive solution to efficiently guide internal employees and external clients through complex business processes spanning over multiple IT-backends like SAP and Office 365. 
 
-This hands-on lab will therefore demonstrate the implementation of an Azure Bot for Microsoft Teams that provides integrated information from Microsoft 365 and SAP leveraging the participial Graph API of each vendor. 
+This hands-on lab will hence demonstrate the implementation of an Azure Bot for Microsoft Teams that provides integrated information from Microsoft 365 and SAP leveraging the participial Graph API of each vendor. 
 
 Both Graph solutions enable developers to efficiently integrate business applications using a single API, from SAP or Microsoft, that transparently delivers information from various backend applications. 
 Further resources about to the Microsoft- and SAP-Graph: 
