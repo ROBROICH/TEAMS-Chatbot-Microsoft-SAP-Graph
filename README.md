@@ -16,9 +16,12 @@ Further resources about the Microsoft- and SAP-Graph:
 ![MICROSOFTGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/MICROSOFT_GRAPH.png)
 
 When implementing the Microsoft Graph demonstrating the Azure Active Directory (AD) integration with functionality like SSO and API permissions is intended as an important aspect of this exercise. 
+
 Currently Azure AD integration with the SAP Graph (BETA) is not possible, a public Bearer token was used. 
 
-Furthermore, this hands-on tutorial will describe the complete setup of the development from environment from scratch. This setup and corresponding documentation are intended for enabling developers to extend this example with their own ideas or customer scenarios. 
+Furthermore, this hands-on tutorial will describe the complete setup of the development from environment from scratch. 
+
+This setup and corresponding documentation are intended for enabling developers to extend this example with their own ideas or customer scenarios. 
 # Business scenario and context
 This lab is developed based on a basic theoretical business scenario with the following assumptions and processes:
 * The call center agent or frontline employee uses Microsoft Teams as preferred user-interface
