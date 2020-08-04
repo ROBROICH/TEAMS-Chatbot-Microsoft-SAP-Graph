@@ -6,8 +6,10 @@ This hands-on lab will therefore demonstrate the implementation of an Azure bot 
 Both Graph solutions enable developers to build business application using a single API, from SAP or Microsoft, that transparently provides information from various backend applications. 
 Further resources about to the Microsoft- and SAP-Graph: 
 * [SAP Graph BETA]( https://beta.graph.sap/)
+
 ![SAPGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/SAP_GRAPH.png)
 * [Microsoft Graph]( https://developer.microsoft.com/en-us/graph/graph-explorer)
+
 ![MICROSOFTGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/MICROSOFT_GRAPH.png)
 
 Regarding the Microsoft Graph demonstrating Azure Active Directory (AD) functionality like SSO and OAuth is intended as an important aspect of this exercise. 
