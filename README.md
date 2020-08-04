@@ -68,7 +68,14 @@ The necessary steps are already described in this tutorial:
 
 Please finish this tutorial until [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) and in addition tot he tutorial modify the [identity provider](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) with the following API permissions: 
 ![IPGraphAPIPermission]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/IP_GRAPH_API_PERMISSIONS.png)
-In case of further customer scenarios or development concepts, these permissions for the MS Graph API access might have to adjusted. One example for further scenarios would be implementing the [Microsoft Search API](https://docs.microsoft.com/en-us/graph/api/resources/search-api-overview?view=graph-rest-beta). 
+In case of further customer scenarios or development concepts, these permissions for the MS Graph API access might have to be adjusted. One example to further extend this scenario would be implementing the [Microsoft Search API](https://docs.microsoft.com/en-us/graph/api/resources/search-api-overview?view=graph-rest-beta). 
+As written in the tutorial the *.env configuration file must be updated with the App ID and customer secret from the bot channel registration. In addition, the connectionName of the identity provider has to be set:
+
+```
+MicrosoftAppId=App Id from Bot channel 
+MicrosoftAppPassword=Customer password from Bot channel 
+connectionName=Identity provider connection 
+```
 
 
 
