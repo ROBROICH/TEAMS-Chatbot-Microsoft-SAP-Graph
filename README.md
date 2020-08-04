@@ -175,8 +175,3 @@ In addition, the motivation is to demonstrate how business processes based on Mi
 * SAP Graph (Beta) with currently public Bearer token
 * Improve adaptive cards layout 
 * Implement Microsoft Graph Search API to search beyond Inbox 
-
-
-
-
-
