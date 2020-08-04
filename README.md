@@ -175,9 +175,6 @@ In addition, the motivation is to demonstrate how business processes based on Mi
 The following next steps are the first ideas for enhancements: 
 * SAP Graph (Beta) with currently public Bearer token
 * Improve adaptive cards layout 
-* Implement Microsoft Graph Search API to search beyond Inbox 
-
-
-
+* Implement Microsoft Graph Search API to search beyond the Outlook Inbox 
 
 
