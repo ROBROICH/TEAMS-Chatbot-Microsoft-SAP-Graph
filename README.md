@@ -1,8 +1,8 @@
-# Hands-On Lab: Combining the Microsoft- Graph and SAP-Graph APIs in a Microsoft Teams chatbot scenario. 
+# Hands-On Lab: Combining the Microsoft- Graph and SAP-Graph APIs in a Microsoft Teams bot scenario. 
 
 # Introduction and motivation
-Microsoft Teams is the prefered hub for teamwork and collaboration tool for numerous frontline and remote workers. As well Azure chatbots are an efficient solution to efficiently guide these employees or customers through complex processes spanning over multiple IT-backends. 
-This hands-on lab will therefore demonstrate the implementation of an Azure Chatbot for Microsoft Teams that mashes-up information from Microsoft 365 and SAP leveraging the particular Graph API of both vendors. 
+Microsoft Teams is the prefered hub for teamwork and collaboration tool for numerous frontline and remote workers. As well Azure bots are an efficient solution to efficiently guide these employees or customers through complex processes spanning over multiple IT-backends. 
+This hands-on lab will therefore demonstrate the implementation of an Azure bot for Microsoft Teams that mashes-up information from Microsoft 365 and SAP leveraging the particular Graph API of both vendors. 
 Both Graph solutions enable developers to build business application using a single API, from SAP or Microsoft, that transparently provides information from various backend applications. 
 Further resources about to the Microsoft- and SAP-Graph: 
 * [SAP Graph BETA]( https://beta.graph.sap/)
@@ -69,14 +69,26 @@ The necessary steps are already described in this tutorial:
 Please finish this tutorial until [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) and in addition tot he tutorial modify the [identity provider](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) with the following API permissions: 
 ![IPGraphAPIPermission]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/IP_GRAPH_API_PERMISSIONS.png)
 In case of further customer scenarios or development concepts, these permissions for the MS Graph API access might have to be adjusted. One example to further extend this scenario would be implementing the [Microsoft Search API](https://docs.microsoft.com/en-us/graph/api/resources/search-api-overview?view=graph-rest-beta). 
-As written in the tutorial the *.env configuration file must be updated with the App ID and customer secret from the bot channel registration. In addition, the connectionName of the identity provider has to be set:
-
+As written in the tutorial the *.env configuration file must be updated with the App ID and customer secret from the bot channel registration. In addition, the connectionName of the identity provider must be set:
 ```
 MicrosoftAppId=App Id from Bot channel 
 MicrosoftAppPassword=Customer password from Bot channel 
 connectionName=Identity provider connection 
 ```
 
+# Install and test the bot with the emulator and teams. 
+To test the bot with the local bot emulator please implement this section of the tutorial: 
+*  [Install and test the bot in Teams]( https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#install-and-test-the-bot-in-teams).
+*  [Testing the bot locally in Teams
+]( https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#testing-the-bot-locally-in-teams)
+
+After finishing the two section above the TeamsAppManifest/manifest.json will be updated with the recent App Ids and uploaded to Teams:
+  ```
+MicrosoftAppId=App Id from Bot channel 
+MicrosoftAppPassword=Customer password from Bot channel 
+connectionName=Identity provider connection 
+```
+ 
 
 
 
