@@ -28,7 +28,9 @@ This lab is developed based on a basic theoretical business scenario with the fo
 * Optional / Next step: The agent now could send an email using the MS Graph API to update the customer about the sales orders status. 
 
 
-Summarized: The purpose of this lab is to demonstrate the simple integration of Microsoft and SAP business- and process-data utilizing modern APIs. 
+Summarized: 
+
+The purpose of this lab is to demonstrate the simple integration of Microsoft and SAP business- and process-data utilizing modern and open APIs. 
 
 ![BusinessScenario]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ScenarioOverview.png)
 # Setup of the development environment 
@@ -181,6 +183,8 @@ The following next steps are the first ideas for enhancements:
 * SAP Graph (Beta) with currently public Bearer token
 * Improve adaptive cards layout 
 * Implement Microsoft Graph Search API to search beyond the Outlook Inbox 
+
+
 
 
 
