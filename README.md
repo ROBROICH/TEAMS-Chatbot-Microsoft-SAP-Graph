@@ -6,6 +6,7 @@ This hands-on lab facilitates Microsoft Teams as the preferred hub for teamwork 
 This hands-on lab will hence demonstrate the implementation of an Azure Bot for Microsoft Teams that provides integrated information from Microsoft 365 and SAP by leveraging the particular Graph API of each vendor. 
 
 Both Graph solutions enable developers to efficiently integrate business applications using a single API, from SAP or Microsoft, that transparently delivers information from various backend applications. 
+
 Further resources about the Microsoft- and SAP-Graph: 
 * [SAP Graph BETA]( https://beta.graph.sap/)
 
@@ -180,8 +181,6 @@ The following next steps are the first ideas for enhancements:
 * SAP Graph (Beta) with currently public Bearer token
 * Improve adaptive cards layout 
 * Implement Microsoft Graph Search API to search beyond the Outlook Inbox 
-
-
 
 
 
