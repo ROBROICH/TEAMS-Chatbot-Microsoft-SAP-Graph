@@ -1,8 +1,10 @@
 # Hands-On Lab: Combining the Microsoft- Graph and SAP-Graph APIs in a Microsoft Teams bot scenario. 
 
 # Introduction and motivation
-The hands-on lab utilizes Microsoft Teams as the preferred hub for teamwork and collaboration tool for numerous frontline and remote workers. Azure Bots, especially in the combination with Teams, are an efficient solution to efficiently guide internal employees and external clients through complex business processes spanning over multiple IT-backends like SAP and Office 365. 
+This hands-on lab uses Microsoft Teams as the preferred hub for teamwork and collaboration tool for today’s frontline and remote workers. Additionally Azure Bots, especially in the combination with Teams, are an efficient solution to efficiently guide internal employees and external clients through complex business processes spanning over multiple IT-backends like SAP and Office 365. 
+
 This hands-on lab will therefore demonstrate the implementation of an Azure Bot for Microsoft Teams that provides combined information from Microsoft 365 and SAP leveraging the participial Graph API of each vendors. 
+
 Both Graph solutions enable developers to efficiently build business application using a single API, from SAP or Microsoft, that transparently delivers information from various backend applications. 
 Further resources about to the Microsoft- and SAP-Graph: 
 * [SAP Graph BETA]( https://beta.graph.sap/)
@@ -13,6 +15,7 @@ Further resources about to the Microsoft- and SAP-Graph:
 ![MICROSOFTGRAPH]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/MICROSOFT_GRAPH.png)
 
 When implementing the Microsoft Graph demonstrating Azure Active Directory (AD) integration with functionality like SSO and OAuth is intended as an important aspect of this exercise. 
+
 Furthermore, this hands-on tutorial will describe the complete setup of the development from environment scratch. This setup is intended for enabling developers to extend this example with their own ideas or customer scenarios. 
 # Business scenario and context
 This lab is developed based on a basic theoretical business scenario with the following assumptions and process:
