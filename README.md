@@ -171,7 +171,13 @@ Here the demo ends for now and as further enhancement different actions could be
 
 # Summary and next steps 
 As stated at the beginning of this document, the intention of this lab is to enable developers in extending and modifying this starter implementation. 
-In addition, the motivation is to demonstrate how business processes based on Microsoft and SAP enterprise applications can be easily integrated within an intuitive user-interfaces like the Azure Bot and Microsoft Teams and modern APIs like the SAP- and Microsoft-Graph:
+In addition, the motivation is to demonstrate how business processes based on Microsoft and SAP enterprise applications can be easily integrated within an intuitive user-interfaces like Microsoft Teams. 
+The following next steps are the first ideas for enhancements: 
 * SAP Graph (Beta) with currently public Bearer token
 * Improve adaptive cards layout 
 * Implement Microsoft Graph Search API to search beyond Inbox 
+
+
+
+
+
