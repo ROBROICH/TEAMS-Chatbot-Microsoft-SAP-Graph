@@ -84,16 +84,62 @@ To test the bot with the local bot emulator please implement this section of the
 
 After finishing the two section above the TeamsAppManifest/manifest.json will be updated with the recent App Ids and uploaded to Teams:
   ```
-MicrosoftAppId=App Id from Bot channel 
-MicrosoftAppPassword=Customer password from Bot channel 
-connectionName=Identity provider connection 
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "2.0.0",
+  "id": " App Id from Bot channel ",
+  "packageName": "com.microsoft.teams.samples",
+  "developer": {
+    "name": "Microsoft",
+    "websiteUrl": "https://example.azurewebsites.net",
+    "privacyUrl": "https://example.azurewebsites.net/privacy",
+    "termsOfUseUrl": "https://example.azurewebsites.net/termsofuse"
+  },
+  "icons": {
+    "color": "icon-color.png",
+    "outline": "icon-outline.png"
+  },
+  "name": {
+    "short": "MS and SAP Graph Chatbot",
+    "full": "Microsoft and SAP Graph Chatbot"
+  },
+  "description": {
+    "short": "Chatbot to demonstrate Microsoft and SAP Graph integration",
+    "full": "Chatbot to demonstrate Microsoft and SAP Graph integration"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": " App Id from Bot channel ",
+      "scopes": [
+        "personal",
+        "groupchat",
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "token.botframework.com",
+    "*.ngrok.io",
+    "graph.microsoft.com"
+  ],
+  "webApplicationInfo": {
+    "id": "",
+    "resource": "https://graph.microsoft.com/"
+  }
+}
+
 ```
- 
 
-
-
-
-
+After uploading the manifest.json file, the bot configuration in the Teams App Studio will look as following: 
+![TEAMSAPPSTUDIO]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/TEAMS_APP_STUDIO.png)
 
 
 
