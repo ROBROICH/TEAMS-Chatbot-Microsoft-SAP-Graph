@@ -1,4 +1,4 @@
-# Hands-On Lab: Combining the Microsoft- Graph and SAP-Graph APIs in a Microsoft Teams chatbot senario. 
+# Hands-On Lab: Combining the Microsoft- Graph and SAP-Graph APIs in a Microsoft Teams chatbot scenario. 
 
 # Introduction and motivation
 Microsoft Teams is the prefered hub for teamwork and collaboration tool for numerous frontline and remote workers. As well Azure chatbots are an efficient solution to efficiently guide these employees or customers through complex processes spanning over multiple IT-backends. 
@@ -39,25 +39,44 @@ The recommendation is as well to gain knowledge about Bot Builder by understandi
 The source-code of this lab is implemented based on the Bot Builder sample [24. MS Graph authentication]( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/24.bot-authentication-msgraph)
 and [46. Teams authentication]( https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/46.teams-auth)
 
-# Application deployment 
+# Local application setup 
 The deployment of the chatbot will be implemented using a local version and an external tunnel to forward the communication to the Azure chatbot channel. 
 After the time-consuming installation prework the manual deployment can be done with a few lines Windows Power Shell. 
 The specific next steps to implement are: 
 •	Open Visual Studio Code
 •	Open two PowerShell terminals 
-•	The commands for the first terminal: 
+•	The commands for the first terminal to start the application: 
 ```
 git clone https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph.git
 cd .\TEAMS-Chatbot-Microsoft-SAP-Graph\
 node install 
 node .\index.js
 ```
-•	The commands for the second terminal: 
+•	The command for the second terminal to start the ngork forwarding: 
 ```
 ngrok http -host-header=rewrite 3978
 ```
 After the successful implementation of the steps the result should look as following: 
 ![VisualStudioCode]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/VisualStudioCodeConfig.png)
- 
+
+Please note the ngork HTTPS forwarding URL(https:/xxxx.ngork.io) as marked on the screenshot above.  
+
+# Azure AD App registration 
+After successful installation of the development environment and local deployment of the application the next step is to configure the App registration for authentication and corresponding Microsoft Graph API permissions. 
+The necessary steps are already described in this tutorial: 
+[Add authentication to your Teams bot](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code)
+
+Please finish this tutorial until [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) and in addition tot he tutorial modify the [identity provider]( [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) with the following API permissions: 
+![IPGraphAPIPermission]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/IP_GRAPH_API_PERMISSIONS.png)
+
+
+
+
+
+
+
+
+
+
 
 
