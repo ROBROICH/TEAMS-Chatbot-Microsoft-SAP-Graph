@@ -21,7 +21,7 @@ Currently Azure AD integration with the SAP Graph (BETA) is not possible, a publ
 
 Furthermore, this hands-on tutorial will describe the complete setup of the development from environment from scratch. 
 
-A summary of the scenario as PDF can be found here: * [Summary]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/2020730_GRAPH_CHATBOT.pdf)
+A summary of the scenario as PDF can be found here: [Summary]( https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/2020730_GRAPH_CHATBOT.pdf)
 
 
 
