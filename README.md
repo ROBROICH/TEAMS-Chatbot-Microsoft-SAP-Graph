@@ -90,12 +90,13 @@ Please finish this tutorial until [Prepare the bot sample code](https://docs.mic
 In addition go back to the app registration in Azure Active Directory and modify the API permissions: 
 ![IPGraphAPIPermission](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/IP_GRAPH_API_PERMISSIONS.png)
 In case of further customer scenarios or development concepts, these permissions for the MS Graph API access might have to be adjusted. One example to further extend this scenario would be implementing the [Microsoft Search API](https://docs.microsoft.com/en-us/graph/api/resources/search-api-overview?view=graph-rest-beta). 
-As written in the tutorial the *.env configuration file must be updated with the App ID and customer secret from the bot channel registration. In addition, the connectionName of the identity provider must be set:
+As written in the tutorial the *.env configuration file must be updated with the App ID and customer secret from the bot channel registration. In addition, the connectionName of the identity provider must be set. To do so copy the .env.template file to tg the .env file and put in the corresponding values
 ```
 MicrosoftAppId=App Id from Bot channel 
 MicrosoftAppPassword=Customer password/client secret from Bot channel 
 connectionName=Identity provider connection 
 ```
+The .env file will be ignored by git due to the settings in the .gitignore file to avoid accedentially pushing your credentials to your code repository. 
 
 # Install and test the bot with the emulator and Teams. 
 To test the bot with the local bot emulator please implement this section of the tutorial: 
