@@ -47,6 +47,7 @@ The first action or hands on exercise is to install the following components in 
 * [Git Client](https://git-scm.com/download/win)
 * [NGROK Client](https://ngrok.com/download) + Set the Windows PATH Environment Variable 
 * [Teams App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/app-studio-overview)
+* [Python](https://www.microsoft.com/en-us/p/python-38/9mssztt1n39l?activetab=pivot:overviewtab) - needed for node-gyp rebuild
 
 The example was built on top of the Bot Builder sample code-library and for development purposes, especially in regard to Azure AD configuration for demo-users, a development Microsoft 365 tenant is recommended. 
 In addition, the local Bot-Framework emulator was helpful to test bot functionality without having to deploy to Teams. 
@@ -179,7 +180,10 @@ For displaying the results of the Graph queries basic [Adaptive Cards](https://d
 
 Here the demo ends for now and as further enhancement different actions could be triggered by the call-center agent now. 
 
-One example could be sending an email with an update about the order status or a call via Teams. 
+One example could be sending an email with an update about the order status or a call via Teams.
+
+## Pitfall
+Up to now the bot was not pushed to Azure but the request were redirected via the NGROK to your local environment. Each time you restart NGROK the endpoint exposed via NGROK will change. Consequently, you must update the value in your Bot Channel Registration Settings i.e. in the Messaging endpoint defined there. 
 
 # Summary and next steps 
 As stated at the beginning of this document, the intention of this lab is to enable developers in extending and modifying this starter implementation. 
