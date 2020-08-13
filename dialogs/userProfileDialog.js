@@ -1,50 +1,36 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { MessageFactory, CardFactory, AttachmentLayoutTypes } = require('botbuilder');
+const { CardFactory, AttachmentLayoutTypes } = require('botbuilder');
+
 const {
     OAuthPrompt,
-    AttachmentPrompt,
-    ChoiceFactory,
-    ChoicePrompt,
     ComponentDialog,
     ConfirmPrompt,
     DialogSet,
     DialogTurnStatus,
-    NumberPrompt,
     TextPrompt,
     WaterfallDialog
 } = require('botbuilder-dialogs');
-const { channels } = require('botbuilder-dialogs/lib/choices/channel');
-const { UserProfile } = require('../userProfile');
+
 const { OAuthHelpers } = require('../oAuthHelpers');
 const { SimpleSAPGraphClient } = require('../simple-SAP-graph-client');
-const { SimpleAdaptiveCardFactory } = require('../simple-adaptive-card-factory');
-
 
 const OAUTH_PROMPT = 'OAuthPrompt';
 
-const ATTACHMENT_PROMPT = 'ATTACHMENT_PROMPT';
-const CHOICE_PROMPT = 'CHOICE_PROMPT';
-const CONFIRM_PROMPT = 'CONFIRM_PROMPT';
-const NAME_PROMPT = 'NAME_PROMPT';
-const NUMBER_PROMPT = 'NUMBER_PROMPT';
 const USER_PROFILE = 'USER_PROFILE';
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 const CONFIRM_PROMPT_OAUTH = 'CONFIRM_PROMPT';
 const TEXT_PROMPT = 'TEXT_PROMPT';
 
-
-
 class UserProfileDialog extends ComponentDialog {
-    
-    //The user interaction flow is defined in the constructor 
+    // The user interaction flow is defined in the constructor
     constructor(userState) {
         super('userProfileDialog');
 
         this.userProfile = userState.createProperty(USER_PROFILE);
 
-        //Prompt for OAUTH
+        // Prompt for OAUTH
         this.addDialog(
             new OAuthPrompt(OAUTH_PROMPT, {
                 connectionName: process.env.connectionName,
@@ -57,7 +43,7 @@ class UserProfileDialog extends ComponentDialog {
 
         this.addDialog(new ConfirmPrompt(CONFIRM_PROMPT_OAUTH));
 
-        //Start the user interaction / waterfall dialog 
+        // Start the user interaction / waterfall dialog
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
             this.promptStep.bind(this),
             this.loginStep.bind(this),
@@ -65,13 +51,11 @@ class UserProfileDialog extends ComponentDialog {
             this.displayTokenStep2.bind(this),
             this.commandStep.bind(this),
             this.processStep.bind(this),
-            this.sapGraphStep.bind(this),
+            this.sapGraphStep.bind(this)
         ]));
 
         this.initialDialogId = WATERFALL_DIALOG;
-
-
-    }
+    };
 
     /**
      * The run method handles the incoming activity (in the form of a TurnContext) and passes it through the dialog system.
@@ -90,10 +74,10 @@ class UserProfileDialog extends ComponentDialog {
         }
     }
 
-    //Here we start 
+    // Here we start
     async promptStep(stepContext) {
-        //var simpleSAPGraphClient = new SimpleSAPGraphClient();
-        //simpleSAPGraphClient.getSAPGraphData();
+        // var simpleSAPGraphClient = new SimpleSAPGraphClient();
+        // simpleSAPGraphClient.getSAPGraphData();
         await stepContext.context.sendActivity('Welcome to the Microsoft Graph & SAP Graph Chatbot Demo.');
         return await stepContext.beginDialog(OAUTH_PROMPT);
     }
@@ -109,8 +93,6 @@ class UserProfileDialog extends ComponentDialog {
         await stepContext.context.sendActivity('Login was not successful please try again.');
         return await stepContext.endDialog();
     }
-
-
 
     async displayTokenStep1(stepContext) {
         await stepContext.context.sendActivity('Thank you.');
@@ -130,16 +112,14 @@ class UserProfileDialog extends ComponentDialog {
         return await stepContext.endDialog();
     }
 
-
     async displayTokenStep2(stepContext) {
         const tokenResponse = stepContext.result;
         if (tokenResponse && tokenResponse.token) {
-            await stepContext.context.sendActivity(`Here is your token ${tokenResponse.token}`);
+            await stepContext.context.sendActivity(`Here is your token ${ tokenResponse.token }`);
             return await stepContext.prompt(TEXT_PROMPT, { prompt: 'Please type \'inbox\' to display your Outlook inbox via the Microsoft Graph API or \'me\' for your profile' });
         }
         return await stepContext.endDialog();
     }
-
 
     async actionStep(step) {
         // Get the token from the previous step. Note that we could also have gotten the
@@ -152,8 +132,6 @@ class UserProfileDialog extends ComponentDialog {
         await step.context.sendActivity('Login was not successful please try again.');
         return await step.endDialog();
     }
-
-
 
     async commandStep(step) {
         step.values.command = step.result;
@@ -186,8 +164,8 @@ class UserProfileDialog extends ComponentDialog {
                 case 'me':
                     await OAuthHelpers.listMe(step.context, tokenResponse);
                     break;
-                
-                //This case is relevant for the hands-on lab. Search in the inbox via MS Graph 
+
+                // This case is relevant for the hands-on lab. Search in the inbox via MS Graph
                 case 'inbox':
                     await OAuthHelpers.listRecentMail(step.context, tokenResponse);
                     break;
@@ -203,55 +181,49 @@ class UserProfileDialog extends ComponentDialog {
         return await step.endDialog();
     }
 
-    //Get the data from the SAP Graph 
+    // Get the data from the SAP Graph
     async sapGraphStep(step) {
-        
         const parts = (step.result || '').split(' ');
 
         var simpleSAPGraphClient = new SimpleSAPGraphClient();
 
-        const customerAPIServicePath = '/beta/Customers?$filter=lastName%20eq%20\'%queryParameter%\'';
-        
-        //For demo purposes just search via lastname. 
+        const customerAPIServicePath = '/' + process.env.SAPGraphVersion + '/Customers?$filter=lastName%20eq%20\'%queryParameter%\'';
+
+        // For demo purposes just search via lastname.
         const customers = await simpleSAPGraphClient.getSAPGraphData(customerAPIServicePath, parts[1]);
 
-        //ToDo: Search by unique user mail address. For demo select the first search result 
-        var customer = customers.value[0]
-        
-        //Store the customer Id to search for sales orders via ID
+        // ToDo: Search by unique user mail address. For demo select the first search result
+        var customer = customers.value[0];
+
+        // Store the customer Id to search for sales orders via ID
         var customerId = customers.value[0].id;
 
-        
+        await step.context.sendActivity(`The id for customer : ${ customer.firstName } ${ customer.lastName } in SAP master data is ${ customer.id }. \n\n Now searching for this customers sales order in SAP \n\n`);
 
-        await step.context.sendActivity(`The id for customer : ${ customer.firstName } ${ customer.lastName } in SAP master data is ${ customer.id}. \n\n Now searching for this customers sales order in SAP \n\n`);
+        const salesOrderAPIServicePath = '/' + process.env.SAPGraphVersion + '/Customers/%queryParameter%/SalesOrders';
 
-        const salesOrderAPIServicePath = '/beta/Customers/%queryParameter%/SalesOrders';
-        
         const salesOrders = await simpleSAPGraphClient.getSAPGraphData(salesOrderAPIServicePath, customerId);
-
+        // ToDo: error handling if no salesOrders were found
         let numberOfSalesOrders = salesOrders.value.length;
 
-        //Create a hero card and loop over graph result set 
+        // Create a hero card and loop over graph result set
         const reply = { attachments: [], attachmentLayout: AttachmentLayoutTypes.List };
-            for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
-                const salesOrder = salesOrders.value[cnt];
-                const card = CardFactory.heroCard(
-                    'Salesorder Id ' + salesOrder.id + ' Customer Id ' + salesOrder.customerID,
-                    //ToDo: Iterate of the sales order items. 
-                    'Item: ' + salesOrder.items[0].productDescription + ' Requested delivery date: ' + salesOrder.requestedDeliveryDate,
-                    [{type: 'Image', alt: 'SAP Logo', url: 'https://media3.giphy.com/media/l2RsUTEu5aIzV6DYWA/source.gif', height: '5px',  width:'5px'}],
-                    ['Send update via email'],
-                    { subtitle: `Distribution Channel : ${ salesOrder.distributionChannel.name } Division: ${ salesOrder.division.name }` }
-                );
-                reply.attachments.push(card);
-            }
-        await step.context.sendActivity(reply);    
-
+        for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
+            const salesOrder = salesOrders.value[cnt];
+            const card = CardFactory.heroCard(
+                'Salesorder Id ' + salesOrder.id + ' Customer Id ' + salesOrder.customerID,
+                // ToDo: Iterate of the sales order items.
+                'Item: ' + salesOrder.items[0].productDescription + ' Requested delivery date: ' + salesOrder.requestedDeliveryDate,
+                [{ type: 'Image', alt: 'SAP Logo', url: 'https://media3.giphy.com/media/l2RsUTEu5aIzV6DYWA/source.gif', height: '5px', width: '5px' }],
+                ['Send update via email'],
+                { subtitle: `Distribution Channel : ${ salesOrder.distributionChannel.name } Division: ${ salesOrder.division.name }` }
+            );
+            reply.attachments.push(card);
+        }
+        await step.context.sendActivity(reply);
 
         return await step.endDialog();
     }
-
-
 }
 
 module.exports.UserProfileDialog = UserProfileDialog;
