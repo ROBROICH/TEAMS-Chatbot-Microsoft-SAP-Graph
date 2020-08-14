@@ -3,7 +3,6 @@
 
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
 const { SimpleGraphClient } = require('./simple-graph-client');
-const { SimpleAdaptiveCard }  = require('./resources/simpleAdaptiveCard.json');
 
 /**
  * These methods call the Microsoft Graph API. The following OAuth scopes are used:
@@ -85,7 +84,7 @@ class OAuthHelpers {
                 const card = CardFactory.heroCard(
                     mail.subject,
                     mail.bodyPreview,
-                    [{type: 'Image', alt: 'Outlook Logo', url: 'https://botframeworksamples.blob.core.windows.net/samples/OutlookLogo.jpg', height: '5px',  width:'5px'}],
+                    [{ type: 'Image', alt: 'Outlook Logo', url: 'https://botframeworksamples.blob.core.windows.net/samples/OutlookLogo.jpg', height: '5px', width: '5px' }],
                     [],
                     { subtitle: `${ mail.from.emailAddress.name } <${ mail.from.emailAddress.address }>` }
                 );
@@ -97,8 +96,7 @@ class OAuthHelpers {
         }
     }
 
-
-       /**
+    /**
      * Displays emails for search parameter (Indexed fuzzy search)
      * @param {TurnContext} context A TurnContext instance containing all the data needed for processing this conversation turn.
      * @param {TokenResponse} tokenResponse A response that includes a user token.
@@ -113,19 +111,13 @@ class OAuthHelpers {
 
         // Pull in the data from Microsoft Graph.
         const client = new SimpleGraphClient(tokenResponse.token);
-        
-        //Hard-Coded search for orders
-        //ToDo: Use Search API instead of recent mails. (Next version)
+
+        // Hard-Coded search for orders
+        // ToDo: Use Search API instead of recent mails. (Next version)
         const me = await client.getDocuments('orders');
 
-
         await context.sendActivity(`You are ${ me.displayName }.`);
-    
-    
     }
-
-
-
 }
 
 exports.OAuthHelpers = OAuthHelpers;

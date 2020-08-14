@@ -76,7 +76,6 @@ class SimpleGraphClient {
             .get().then((res) => {
                 return res;
             });
-
     }
 
     /**
@@ -103,37 +102,28 @@ class SimpleGraphClient {
             });
     }
 
-
     async getDocuments(queryParameter) {
-
-        //Searchparameter "Order" is hardcoded
-        const searchResponse = { requests: [{ entityTypes: ["microsoft.graph.message"], query: { query_string: { query: "order" } }, from: 0, size: 5 }] };
+        // Searchparameter "Order" is hardcoded
+        const searchResponse = { requests: [{ entityTypes: ['microsoft.graph.message'], query: { query_string: { query: 'order' } }, from: 0, size: 5 }] };
 
         let result = null;
 
         try {
-            console.log("entering try block");
+            console.log('entering try block');
             result = await this.graphClient
                 .api('/search/query')
                 .version('beta')
                 .post(searchResponse);
-        }
-        catch (e) {
-            console.log("entering catch block");
+        } catch (e) {
+            console.log('entering catch block');
             console.log(e);
-            console.log("leaving catch block");
+            console.log('leaving catch block');
+        } finally {
+            console.log('entering and leaving the finally block');
         }
-        finally {
-            console.log("entering and leaving the finally block");
-        }
-
 
         return result;
-
     }
-
-
-
 }
 
 exports.SimpleGraphClient = SimpleGraphClient;
