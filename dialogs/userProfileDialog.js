@@ -13,7 +13,7 @@ const {
     WaterfallDialog
 } = require('botbuilder-dialogs');
 
-const { OAuthHelpers } = require('../oAuthHelpers');
+const { OAuthHelpers } = require('../helpers/oAuthHelpers');
 const { SimpleSAPGraphClient } = require('../simple-SAP-graph-client');
 
 const OAUTH_PROMPT = 'OAuthPrompt';
