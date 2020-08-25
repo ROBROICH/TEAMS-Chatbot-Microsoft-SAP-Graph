@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
-const { SimpleGraphClient } = require('./simple-graph-client');
+const { SimpleGraphClient } = require('../simple-graph-client');
 
 /**
  * These methods call the Microsoft Graph API. The following OAuth scopes are used:
