@@ -6,7 +6,6 @@ const { CardFactory, AttachmentLayoutTypes } = require('botbuilder');
 const {
     OAuthPrompt,
     ComponentDialog,
-    ConfirmPrompt,
     DialogSet,
     DialogTurnStatus,
     TextPrompt,
@@ -25,7 +24,6 @@ const OAUTH_PROMPT = 'OAuthPrompt';
 
 const USER_PROFILE = 'USER_PROFILE';
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
-const CONFIRM_PROMPT_OAUTH = 'CONFIRM_PROMPT';
 const TEXT_PROMPT = 'TEXT_PROMPT';
 
 class UserProfileDialog extends ComponentDialog {
@@ -46,14 +44,10 @@ class UserProfileDialog extends ComponentDialog {
 
         this.addDialog(new TextPrompt(TEXT_PROMPT));
 
-        this.addDialog(new ConfirmPrompt(CONFIRM_PROMPT_OAUTH));
-
         // Start the user interaction / waterfall dialog
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
             this.promptStep.bind(this),
             this.loginStep.bind(this),
-            this.displayTokenStep1.bind(this),
-            this.displayTokenStep2.bind(this),
             this.commandStep.bind(this),
             this.processStep.bind(this),
             this.sapGraphStep.bind(this)
@@ -81,8 +75,6 @@ class UserProfileDialog extends ComponentDialog {
 
     // Here we start
     async promptStep(stepContext) {
-        // var simpleSAPGraphClient = new SimpleSAPGraphClient();
-        // simpleSAPGraphClient.getSAPGraphData();
         await stepContext.context.sendActivity('Welcome to the Microsoft Graph & SAP Graph Chatbot Demo.');
         return await stepContext.beginDialog(OAUTH_PROMPT);
     }
@@ -91,38 +83,11 @@ class UserProfileDialog extends ComponentDialog {
         // Get the token from the previous step. Note that we could also have gotten the
         // token directly from the prompt itself. There is an example of this in the next method.
         const tokenResponse = stepContext.result;
-        if (tokenResponse) {
-            await stepContext.context.sendActivity('You are now logged in.');
-            return await stepContext.prompt(CONFIRM_PROMPT_OAUTH, 'Would you like to view your token? Please prompt \'YES\' for this demo');
-        }
-        await stepContext.context.sendActivity('Login was not successful please try again.');
-        return await stepContext.endDialog();
-    }
-
-    async displayTokenStep1(stepContext) {
-        await stepContext.context.sendActivity('Thank you.');
-
-        const result = stepContext.result;
-        if (result) {
-            // Call the prompt again because we need the token. The reasons for this are:
-            // 1. If the user is already logged in we do not need to store the token locally in the bot and worry
-            // about refreshing it. We can always just call the prompt again to get the token.
-            // 2. We never know how long it will take a user to respond. By the time the
-            // user responds the token may have expired. The user would then be prompted to login again.
-            //
-            // There is no reason to store the token locally in the bot because we can always just call
-            // the OAuth prompt to get the token or get a new token if needed.
-            return await stepContext.beginDialog(OAUTH_PROMPT);
-        }
-        return await stepContext.endDialog();
-    }
-
-    async displayTokenStep2(stepContext) {
-        const tokenResponse = stepContext.result;
         if (tokenResponse && tokenResponse.token) {
-            await stepContext.context.sendActivity(`Here is your token ${ tokenResponse.token }`);
+            await stepContext.context.sendActivity('You are now logged in.');
             return await stepContext.prompt(TEXT_PROMPT, { prompt: 'Please type \'inbox\' to display your Outlook inbox via the Microsoft Graph API or \'me\' for your profile' });
         }
+        await stepContext.context.sendActivity('Login was not successful please try again.');
         return await stepContext.endDialog();
     }
 
@@ -192,7 +157,7 @@ class UserProfileDialog extends ComponentDialog {
 
         var simpleSAPGraphClient = new SimpleSAPGraphClient();
 
-        const customerAPIServicePath = '/' + process.env.SAPGraphVersion + '/Customers?$filter=lastName%20eq%20\'%queryParameter%\'';
+        const customerAPIServicePath = '/' + process.env.SAPGraphVersion + '/Customers?$filter=tolower(lastName)%20eq%20tolower(\'%queryParameter%\')';
 
         // For demo purposes just search via lastname.
         const customers = await simpleSAPGraphClient.getSAPGraphData(customerAPIServicePath, parts[1]);
