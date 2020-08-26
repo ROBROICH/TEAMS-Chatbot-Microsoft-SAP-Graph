@@ -157,7 +157,7 @@ class UserProfileDialog extends ComponentDialog {
 
         var simpleSAPGraphClient = new SimpleSAPGraphClient();
 
-        const customerAPIServicePath = '/' + process.env.SAPGraphVersion + '/Customers?$filter=lastName%20eq%20\'%queryParameter%\'';
+        const customerAPIServicePath = '/' + process.env.SAPGraphVersion + '/Customers?$filter=tolower(lastName)%20eq%20tolower(\'%queryParameter%\')';
 
         // For demo purposes just search via lastname.
         const customers = await simpleSAPGraphClient.getSAPGraphData(customerAPIServicePath, parts[1]);
