@@ -1,0 +1,59 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.2",
+    "body": [
+        {
+            "type": "FactSet",
+            "spacing": "default",
+            "facts": [
+                {
+                    "title": "Sales Order Id:",
+                    "value": "${salesOrderID}"
+                },
+                {
+                    "title": "Customer Id:",
+                    "value": "${customerID}"
+                },
+                {
+                    "title": "Distribution Channel:",
+                    "value": "${distributionChannel}"
+                },
+                {
+                    "title": "Division:",
+                    "value": "${division}"
+                },
+                {
+                    "title": "OrderDate: ",
+                    "value": "{{DATE(${orderDate},SHORT)}}"
+                },
+                {
+                    "title": "Net Amount:",
+                    "value": "${netAmount} ${currency}"
+                },
+                {
+                    "title": "Tax Amount",
+                    "value": "${taxAmount} ${currency}"
+                },
+                {
+                    "title": "Gross Amount",
+                    "value": "${grossAmount} ${currency}"
+                }
+            ],
+            "separator": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "Status: ${statusText}",
+            "separator": true,
+            "color": "${statusColor}"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+
+            ],
+            "separator": true
+        }
+    ]
+}

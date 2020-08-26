@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
-const { SimpleGraphClient } = require('./simple-graph-client');
+const { SimpleGraphClient } = require('../simple-graph-client');
+const mailAdaptiveCard = require('../helpers/adaptiveCards/mailAdaptiveCard.json');
+const AdaptiveCardTemplating = require('adaptivecards-templating');
 
 /**
  * These methods call the Microsoft Graph API. The following OAuth scopes are used:
@@ -81,14 +83,22 @@ class OAuthHelpers {
             const reply = { attachments: [], attachmentLayout: AttachmentLayoutTypes.Digest };
             for (let cnt = 0; cnt < numberOfMessages; cnt++) {
                 const mail = messages[cnt];
-                const card = CardFactory.heroCard(
-                    mail.subject,
-                    mail.bodyPreview,
-                    [{ type: 'Image', alt: 'Outlook Logo', url: 'https://botframeworksamples.blob.core.windows.net/samples/OutlookLogo.jpg', height: '5px', width: '5px' }],
-                    [],
-                    { subtitle: `${ mail.from.emailAddress.name } <${ mail.from.emailAddress.address }>` }
-                );
-                reply.attachments.push(card);
+
+                var template = new AdaptiveCardTemplating.Template(mailAdaptiveCard);
+                var card = template.expand({
+                    $root: {
+                        title: mail.subject,
+                        senderName: mail.from.emailAddress.name,
+                        senderAddress: mail.from.emailAddress.address,
+                        viewURL: mail.webLink,
+                        description: mail.bodyPreview,
+                        receivedDateTime: mail.receivedDateTime
+                    }
+                });
+
+                const cardInBotFormat = CardFactory.adaptiveCard(card);
+
+                reply.attachments.push(cardInBotFormat);
             }
             await context.sendActivity(reply);
         } else {

@@ -70,8 +70,8 @@ The specific next steps to implement are:
 ```
 git clone https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph.git
 cd .\TEAMS-Chatbot-Microsoft-SAP-Graph\
-node install 
-node .\index.js
+npm install 
+npm start
 ```
 •	The command for the second terminal to start the ngrok forwarding: 
 ```

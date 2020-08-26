@@ -1,0 +1,6 @@
+{
+    "id": "quantityColumn",
+    "type": "TextBlock",
+    "weight": "Bolder",
+    "text": "Quantity"
+}

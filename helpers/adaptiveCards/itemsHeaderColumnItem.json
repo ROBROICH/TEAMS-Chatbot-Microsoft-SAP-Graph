@@ -1,0 +1,6 @@
+{
+    "id": "productDescriptionColumn",
+    "type": "TextBlock",
+    "weight": "Bolder",
+    "text": "Item"
+}
