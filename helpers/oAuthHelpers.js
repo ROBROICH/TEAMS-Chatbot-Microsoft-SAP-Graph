@@ -3,7 +3,7 @@
 
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
 const { SimpleGraphClient } = require('../simple-graph-client');
-const mailAdaptiveCard = require('../resources/mailAdaptiveCard.json');
+const mailAdaptiveCard = require('../helpers/adaptiveCards/mailAdaptiveCard.json');
 const AdaptiveCardTemplating = require('adaptivecards-templating');
 
 /**

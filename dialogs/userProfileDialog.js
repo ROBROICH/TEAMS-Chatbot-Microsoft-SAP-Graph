@@ -15,6 +15,11 @@ const {
 
 const { OAuthHelpers } = require('../helpers/oAuthHelpers');
 const { SimpleSAPGraphClient } = require('../simple-SAP-graph-client');
+const { SAPGraphHelper } = require('../helpers/SAP-graph-helper');
+const { AdaptiveCardsHelper } = require('../helpers/adaptiveCards/AdaptiveCardsHelper');
+
+const salesOrderAdaptiveCard = require('../helpers/adaptiveCards/salesOrderAdaptiveCard.json');
+const AdaptiveCardTemplating = require('adaptivecards-templating');
 
 const OAUTH_PROMPT = 'OAuthPrompt';
 
@@ -204,21 +209,39 @@ class UserProfileDialog extends ComponentDialog {
 
         const salesOrders = await simpleSAPGraphClient.getSAPGraphData(salesOrderAPIServicePath, customerId);
         // ToDo: error handling if no salesOrders were found
-        let numberOfSalesOrders = salesOrders.value.length;
+        const numberOfSalesOrders = salesOrders.value.length;
 
         // Create a hero card and loop over graph result set
         const reply = { attachments: [], attachmentLayout: AttachmentLayoutTypes.List };
         for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
             const salesOrder = salesOrders.value[cnt];
-            const card = CardFactory.heroCard(
-                'Salesorder Id ' + salesOrder.id + ' Customer Id ' + salesOrder.customerID,
-                // ToDo: Iterate of the sales order items.
-                'Item: ' + salesOrder.items[0].productDescription + ' Requested delivery date: ' + salesOrder.requestedDeliveryDate,
-                [{ type: 'Image', alt: 'SAP Logo', url: 'https://media3.giphy.com/media/l2RsUTEu5aIzV6DYWA/source.gif', height: '5px', width: '5px' }],
-                ['Send update via email'],
-                { subtitle: `Distribution Channel : ${ salesOrder.distributionChannel.name } Division: ${ salesOrder.division.name }` }
-            );
-            reply.attachments.push(card);
+
+            // get Sales Order Adaptive Card JSON Template and adjust it according to the items we have in Sales Order
+            salesOrderAdaptiveCard.body[2].columns = AdaptiveCardsHelper.getItemsTable(salesOrder.items);
+
+            // decide which color to use depending of the Sales Order status
+            const statusColor = SAPGraphHelper.getColorByStatusCode(salesOrder.status.code);
+
+            const template = new AdaptiveCardTemplating.Template(salesOrderAdaptiveCard);
+            const card = template.expand({
+                $root: {
+                    salesOrderID: salesOrder.id,
+                    customerID: salesOrder.customerID,
+                    distributionChannel: salesOrder.distributionChannel.name,
+                    division: salesOrder.division.name,
+                    orderDate: salesOrder.orderDate,
+                    netAmount: salesOrder.netAmount,
+                    currency: salesOrder.currency.code,
+                    taxAmount: salesOrder.taxAmount,
+                    grossAmount: salesOrder.grossAmount,
+                    statusText: salesOrder.status.name,
+                    statusColor: statusColor
+                }
+            });
+
+            const cardInBotFormat = CardFactory.adaptiveCard(card);
+
+            reply.attachments.push(cardInBotFormat);
         }
         await step.context.sendActivity(reply);
 
