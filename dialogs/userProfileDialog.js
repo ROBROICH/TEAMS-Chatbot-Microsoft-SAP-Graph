@@ -157,10 +157,8 @@ class UserProfileDialog extends ComponentDialog {
 
         var simpleSAPGraphClient = new SimpleSAPGraphClient();
 
-        const customerAPIServicePath = '/' + process.env.SAPGraphVersion + '/Customers?$filter=tolower(lastName)%20eq%20tolower(\'%queryParameter%\')';
-
         // For demo purposes just search via lastname.
-        const customers = await simpleSAPGraphClient.getSAPGraphData(customerAPIServicePath, parts[1]);
+        const customers = await simpleSAPGraphClient.getCustomersByLastName(parts[1]);
 
         // ToDo: Search by unique user mail address. For demo select the first search result
         var customer = customers.value[0];
@@ -170,9 +168,8 @@ class UserProfileDialog extends ComponentDialog {
 
         await step.context.sendActivity(`The id for customer : ${ customer.firstName } ${ customer.lastName } in SAP master data is ${ customer.id }. \n\n Now searching for this customers sales order in SAP \n\n`);
 
-        const salesOrderAPIServicePath = '/' + process.env.SAPGraphVersion + '/Customers/%queryParameter%/SalesOrders';
+        const salesOrders = await simpleSAPGraphClient.getSalesOrderForCustomerId(customerId);
 
-        const salesOrders = await simpleSAPGraphClient.getSAPGraphData(salesOrderAPIServicePath, customerId);
         // ToDo: error handling if no salesOrders were found
         const numberOfSalesOrders = salesOrders.value.length;
 
