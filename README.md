@@ -19,7 +19,7 @@ When implementing the Microsoft Graph demonstrating the Azure Active Directory (
 
 Currently Azure AD integration with the SAP Graph (BETA) is not possible, a public Bearer token was used. 
 
-Furthermore, this hands-on tutorial will describe the complete setup of the development from environment from scratch. 
+Furthermore, this hands-on tutorial will describe the complete setup of the development environment from scratch.
 
 A summary of the scenario as PDF can be found here: [Summary](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/2020730_GRAPH_CHATBOT.pdf)
 
@@ -40,11 +40,11 @@ The purpose of this lab is to demonstrate the simple integration of Microsoft an
 ![BusinessScenario](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ScenarioOverview.png)
 
 # Setup of the development environment 
-In order to run the lab and even more important to further extend this example, an essential aspect and exercise of this lab is to setup the development environment. Programming-environment and -language is Node.JS, therefore Java- or Java-Script knowledge is recommended. 
+In order to run the lab and even more important to further extend this example, an essential aspect and exercise of this lab is to setup the development environment. Programming-environment and -language is Node.JS, therefore Java-Script knowledge is recommended. 
 The first action or hands on exercise is to install the following components in the development environment: 
 * [Visual Studio Code](https://code.visualstudio.com/download)
-* [Microsoft Graph](https://developer.microsoft.com/en-us/graph/graph-explorer)
-* [Git Client](https://git-scm.com/download/win)
+* [Microsoft Graph](https://developer.microsoft.com/en-us/graph/graph-explorer) (no installation necessary)
+* [Git Client](https://git-scm.com/download)
 * [NGROK Client](https://ngrok.com/download) + Set the Windows PATH Environment Variable 
 * [Teams App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/app-studio-overview)
 * [Python](https://www.microsoft.com/en-us/p/python-38/9mssztt1n39l?activetab=pivot:overviewtab) - needed for node-gyp rebuild
@@ -165,7 +165,7 @@ After uploading the manifest.json file, the bot configuration in the Teams App S
 ![TEAMSAPPSTUDIO](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/TEAMS_APP_STUDIO.png)
 
 # Demo-flow and API consumption
-After successful local testing local in Teams the demo-flow will be as described below. 
+After successful local testing in Teams the demo-flow will be as described below. 
 ## Azure AD logon and granting API permission for MS Graph 
 When the user logons for the first time the API permission for MS Graph must be granted by the user: 
 ![DEMOFLOWAD1](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD1.png)

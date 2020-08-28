@@ -6,33 +6,35 @@ var http = require('http');
 // Test-Data: Jane Jackson ID: 1000482
 
 /**
- * This class is a wrapper for the Microsoft Graph API.
- * See: https://developer.microsoft.com/en-us/graph for more information.
- */
+ * This class is a wrapper for the SAP Graph API.
+  */
 class SimpleSAPGraphClient {
     constructor() {
         this.URL = 'api.graph.sap';
+        this.SAP_GRAPH_VERSION = process.env.SAPGraphVersion;
         this.AUTHTYPE_PUBLIC_TOKEN = process.env.SAPAuthBearerToken;
-        this.AUTHTYPE = 'Authorization';
-        this.LANDSCAPE = 'Landscape';
-
-        this.authType = 'Bearer';
-        this.landscapeName = process.env.SAPLandscape;
+        this.AUTHTYPE = 'Bearer';
     }
 
-    getSAPGraphData(servicePathURL, queryParameter) {
-        const stringReplace = '%queryParameter%';
+    async getCustomersByLastName(customerLastName) {
+        const servicePath = '/' + this.SAP_GRAPH_VERSION + '/Customers?$filter=tolower(lastName)%20eq%20tolower(\'' + customerLastName + '\')';
+        return await this.get(servicePath);
+    }
 
-        this.servicePath = servicePathURL.replace(stringReplace, queryParameter);
+    async getSalesOrderForCustomerId(customerId) {
+        const servicePath = '/' + this.SAP_GRAPH_VERSION + '/Customers/' + customerId + '/SalesOrders';
+        return await this.get(servicePath);
+    }
 
+    async get(path) {
         return new Promise((resolve, reject) => {
             http.get({
                 protocol: 'http:',
                 hostname: this.URL,
                 port: 80,
-                path: this.servicePath,
+                path: path,
                 headers: {
-                    Authorization: this.authType + ' ' + this.AUTHTYPE_PUBLIC_TOKEN
+                    Authorization: this.AUTHTYPE + ' ' + this.AUTHTYPE_PUBLIC_TOKEN
                 }
             },
             (response) => {
