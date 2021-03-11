@@ -146,7 +146,7 @@ class UserProfileDialog extends ComponentDialog {
         }
         return await step.prompt(TEXT_PROMPT, {
           prompt:
-            'Please type the customer name and lastname for displaying the open sales orders',
+            'Please type the order number for displaying the sales order details',
         });
       }
     } else {
@@ -158,80 +158,82 @@ class UserProfileDialog extends ComponentDialog {
     return await step.endDialog();
   }
 
-  // Get the data from the SAP Graph
+  // Walters Get the data from the SAP Graph
   async sapGraphStep(step) {
-    try {
-      const parts = (step.result || '').split(' ');
+    const parts = (step.result || '').split(' ');
 
-      //let simpleSAPGraphClient = new SimpleSAPGraphClient();
-      let simpleSAPClient = new SimpleSAPAPIHubClient();
+    var simpleSAPGraphClient = new SimpleSAPGraphClient();
+    // todo let simpleSAPClient = new SimpleSAPAPIHubClient();
 
-      // For demo purposes just search via lastname.
-      //e.g. Domestic US Customer 1
-      const customers = await simpleSAPClient.getCustomersByLastName(
-        step.result
+    const salesOrders = await simpleSAPGraphClient.getOrderByOrderNumber(
+      parts[0]
+    );
+    const customer = await simpleSAPGraphClient.getCustomerBySalesOrder(
+      salesOrders[0]
+    ); // for demo purposes only first sales order is considered
+
+    // TODO: error handling if no salesOrders were found
+    const numberOfSalesOrders = salesOrders.length;
+
+    // Create a hero card and loop over graph result set
+    const reply = {
+      attachments: [],
+      attachmentLayout: AttachmentLayoutTypes.List,
+    };
+    for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
+      const salesOrder = salesOrders[cnt];
+
+      // get Sales Order Adaptive Card JSON Template and adjust it according to the items we have in Sales Order
+      salesOrderAdaptiveCard.body[2].columns = AdaptiveCardsHelper.getItemsTable(
+        salesOrder.items
       );
 
-      // ToDo: Search by unique user mail address. For demo select the first search result
-
-      // Store the customer Id to search for sales orders via ID
-      let customerId = customers[0].businessPartner;
-
-      let customerName = customers[0].businessPartnerName;
-
-      await step.context.sendActivity(
-        `The id for customer : ${customerName} in SAP master data is ${customerId}. \n\n Now searching for this customers sales order in SAP \n\n`
+      // decide which color to use depending of the Sales Order status
+      const statusColor = SAPGraphHelper.getColorByStatusCode(
+        salesOrder.processingStatus.code
       );
+      // Todo const statusColor = SAPGraphHelper.getColorByStatusCode(salesOrder.overallSdProcessStatus);
 
-      const salesOrders = await simpleSAPClient.getSalesOrderForCustomerId(
-        customerId
+      const template = new AdaptiveCardTemplating.Template(
+        salesOrderAdaptiveCard
       );
+      console.log('Customer phone Numbers: ');
+      console.log(customer.addressData.phoneNumbers);
+      const card = template.expand({
+        $root: {
+          salesOrderID: salesOrder.displayId,
+          customerID: customer.displayId, // salesOrder.customer.id, // TODO: lesen vom BP und anzeigen der displayId
+          distributionChannel: salesOrder.distributionChannel.name,
+          division: salesOrder.division.name,
+          orderDate: salesOrder.orderDate,
+          netAmount: salesOrder.netAmount,
+          currency: salesOrder.currency.code,
+          statusText: salesOrder.processingStatus.name,
+          statusColor: statusColor,
+          contactName: customer.organization.nameDetails.formattedOrgNameLine1, // TODO: find a customer <> Organization
+          contactPhoneNumber: customer.addressData[0].phoneNumbers[0].number,
+          // TODO: telefonnummer
+        },
+      });
 
-      // ToDo: error handling if no salesOrders were found
-      const numberOfSalesOrders = salesOrders.length;
+      //todo api hub
+      // const card = template.expand({
+      //     $root: {
+      //       salesOrderID: salesOrder.salesOrder,
+      //       customerID: salesOrder.soldToParty,
+      //       orderDate: salesOrder.salesOrderDate,
+      //       netAmount: salesOrder.totalNetAmount,
+      //       currency: salesOrder.transactionCurrency,
+      //       statusText: salesOrder.overallSDProcessStatus,
+      //       statusColor: statusColor,
+      //     },
+      //   });
 
-      // Create a hero card and loop over graph result set
-      const reply = {
-        attachments: [],
-        attachmentLayout: AttachmentLayoutTypes.List,
-      };
-      for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
-        const salesOrder = salesOrders[cnt];
+      const cardInBotFormat = CardFactory.adaptiveCard(card);
 
-        // get Sales Order Adaptive Card JSON Template and adjust it according to the items we have in Sales Order
-        salesOrderAdaptiveCard.body[2].columns = AdaptiveCardsHelper.getItemsTable(
-          salesOrder.items
-        );
-
-        // decide which color to use depending of the Sales Order status
-        const statusColor = SAPGraphHelper.getColorByStatusCode(
-          salesOrder.overallSdProcessStatus
-        );
-
-        const template = new AdaptiveCardTemplating.Template(
-          salesOrderAdaptiveCard
-        );
-
-        const card = template.expand({
-          $root: {
-            salesOrderID: salesOrder.salesOrder,
-            customerID: salesOrder.soldToParty,
-            orderDate: salesOrder.salesOrderDate,
-            netAmount: salesOrder.totalNetAmount,
-            currency: salesOrder.transactionCurrency,
-            statusText: salesOrder.overallSDProcessStatus,
-            statusColor: statusColor,
-          },
-        });
-
-        const cardInBotFormat = CardFactory.adaptiveCard(card);
-
-        reply.attachments.push(cardInBotFormat);
-      }
-      await step.context.sendActivity(reply);
-    } catch (error) {
-      console.log(error);
+      reply.attachments.push(cardInBotFormat);
     }
+    await step.context.sendActivity(reply);
 
     return await step.endDialog();
   }

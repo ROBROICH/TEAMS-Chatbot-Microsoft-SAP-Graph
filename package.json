@@ -23,6 +23,7 @@
         "@sap/cloud-sdk-vdm-sales-order-service": "^1.24.0",
         "adaptivecards": "^2.1.0",
         "adaptivecards-templating": "^1.1.0",
+        "axios": "^0.21.1",
         "botbuilder": "^4.12.0",
         "botbuilder-dialogs": "~4.7.0",
         "dotenv": "^8.2.0",
