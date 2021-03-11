@@ -18,6 +18,9 @@
     },
     "dependencies": {
         "@microsoft/microsoft-graph-client": "~2.0.0",
+        "@sap-cloud-sdk/core": "^1.39.0",
+        "@sap/cloud-sdk-vdm-business-partner-service": "^1.24.0",
+        "@sap/cloud-sdk-vdm-sales-order-service": "^1.24.0",
         "adaptivecards": "^2.1.0",
         "adaptivecards-templating": "^1.1.0",
         "axios": "^0.21.1",
