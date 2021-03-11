@@ -52,11 +52,11 @@ class AdaptiveCardsHelper {
             }
 
             // add texts to the table
-            for (let j = 0; j < salesOrderItems.length; j++) {
-                const columnItem = JSON.parse(JSON.stringify(itemTemplate));
-                columnItem.text = salesOrderItems[j][columnName];
-                column.items.push(columnItem);
-            }
+            // for (let j = 0; j < salesOrderItems.length; j++) {
+            //     const columnItem = JSON.parse(JSON.stringify(itemTemplate));
+            //     columnItem.text = salesOrderItems[j][columnName];
+            //     column.items.push(columnItem);
+            // }
 
             itemsTable.push(column);
         }
