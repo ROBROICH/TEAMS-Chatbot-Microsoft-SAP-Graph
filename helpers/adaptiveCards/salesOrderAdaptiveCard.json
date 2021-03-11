@@ -30,14 +30,6 @@
                 {
                     "title": "Net Amount:",
                     "value": "${netAmount} ${currency}"
-                },
-                {
-                    "title": "Tax Amount",
-                    "value": "${taxAmount} ${currency}"
-                },
-                {
-                    "title": "Gross Amount",
-                    "value": "${grossAmount} ${currency}"
                 }
             ],
             "separator": true
@@ -54,6 +46,13 @@
 
             ],
             "separator": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "title": "Call ${contactName}",
+            "url": "tel:${contactPhoneNumber}"
         }
     ]
 }

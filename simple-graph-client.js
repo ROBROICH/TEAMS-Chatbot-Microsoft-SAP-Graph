@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+require('isomorphic-fetch');
 const { Client } = require('@microsoft/microsoft-graph-client');
 
 /**

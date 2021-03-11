@@ -142,7 +142,7 @@ class UserProfileDialog extends ComponentDialog {
                 default:
                     await step.context.sendActivity(`Your token is ${ tokenResponse.token }`);
                 }
-                return await step.prompt(TEXT_PROMPT, { prompt: 'Please type the customer name and lastname for displaying the open sales orders' });
+                return await step.prompt(TEXT_PROMPT, { prompt: 'Please type the order number for displaying the sales order details' });
             }
         } else {
             await step.context.sendActivity('We couldn\'t log you in. Please try again later.');
@@ -157,47 +157,40 @@ class UserProfileDialog extends ComponentDialog {
 
         var simpleSAPGraphClient = new SimpleSAPGraphClient();
 
-        // For demo purposes just search via lastname.
-        const customers = await simpleSAPGraphClient.getCustomersByLastName(parts[1]);
+        const salesOrders = await simpleSAPGraphClient.getOrderByOrderNumber(parts[0]);
+        const customer = await simpleSAPGraphClient.getCustomerBySalesOrder(salesOrders[0]); // for demo purposes only first sales order is considered
 
-        // ToDo: Search by unique user mail address. For demo select the first search result
-        var customer = customers.value[0];
-
-        // Store the customer Id to search for sales orders via ID
-        var customerId = customers.value[0].id;
-
-        await step.context.sendActivity(`The id for customer : ${ customer.firstName } ${ customer.lastName } in SAP master data is ${ customer.id }. \n\n Now searching for this customers sales order in SAP \n\n`);
-
-        const salesOrders = await simpleSAPGraphClient.getSalesOrderForCustomerId(customerId);
-
-        // ToDo: error handling if no salesOrders were found
-        const numberOfSalesOrders = salesOrders.value.length;
+        // TODO: error handling if no salesOrders were found
+        const numberOfSalesOrders = salesOrders.length;
 
         // Create a hero card and loop over graph result set
         const reply = { attachments: [], attachmentLayout: AttachmentLayoutTypes.List };
         for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
-            const salesOrder = salesOrders.value[cnt];
+            const salesOrder = salesOrders[cnt];
 
             // get Sales Order Adaptive Card JSON Template and adjust it according to the items we have in Sales Order
             salesOrderAdaptiveCard.body[2].columns = AdaptiveCardsHelper.getItemsTable(salesOrder.items);
 
             // decide which color to use depending of the Sales Order status
-            const statusColor = SAPGraphHelper.getColorByStatusCode(salesOrder.status.code);
+            const statusColor = SAPGraphHelper.getColorByStatusCode(salesOrder.processingStatus.code);
 
             const template = new AdaptiveCardTemplating.Template(salesOrderAdaptiveCard);
+            console.log("Customer phone Numbers: ");
+            console.log(customer.addressData.phoneNumbers);
             const card = template.expand({
                 $root: {
-                    salesOrderID: salesOrder.id,
-                    customerID: salesOrder.customerID,
+                    salesOrderID: salesOrder.displayId,
+                    customerID: customer.displayId, // salesOrder.customer.id, // TODO: lesen vom BP und anzeigen der displayId
                     distributionChannel: salesOrder.distributionChannel.name,
                     division: salesOrder.division.name,
                     orderDate: salesOrder.orderDate,
                     netAmount: salesOrder.netAmount,
                     currency: salesOrder.currency.code,
-                    taxAmount: salesOrder.taxAmount,
-                    grossAmount: salesOrder.grossAmount,
-                    statusText: salesOrder.status.name,
-                    statusColor: statusColor
+                    statusText: salesOrder.processingStatus.name,
+                    statusColor: statusColor,
+                    contactName: customer.organization.nameDetails.formattedOrgNameLine1, // TODO: find a customer <> Organization
+                    contactPhoneNumber: customer.addressData[0].phoneNumbers[0].number
+                    // TODO: telefonnummer
                 }
             });
 
