@@ -14,6 +14,7 @@ const {
 
 const { OAuthHelpers } = require('../helpers/oAuthHelpers');
 const { SimpleSAPGraphClient } = require('../simple-SAP-graph-client');
+const { SimpleSAPAPIHubClient } = require('../simple-SAP-API-Hub-client');
 const { SAPGraphHelper } = require('../helpers/SAP-graph-helper');
 const { AdaptiveCardsHelper } = require('../helpers/adaptiveCards/AdaptiveCardsHelper');
 
@@ -21,7 +22,6 @@ const salesOrderAdaptiveCard = require('../helpers/adaptiveCards/salesOrderAdapt
 const AdaptiveCardTemplating = require('adaptivecards-templating');
 
 const OAUTH_PROMPT = 'OAuthPrompt';
-
 const USER_PROFILE = 'USER_PROFILE';
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 const TEXT_PROMPT = 'TEXT_PROMPT';
@@ -40,21 +40,24 @@ class UserProfileDialog extends ComponentDialog {
                 text: 'Please Sign In',
                 title: 'Sign In',
                 timeout: 300000
-            }));
+            })
+        );
 
         this.addDialog(new TextPrompt(TEXT_PROMPT));
 
         // Start the user interaction / waterfall dialog
-        this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
-            this.promptStep.bind(this),
-            this.loginStep.bind(this),
-            this.commandStep.bind(this),
-            this.processStep.bind(this),
-            this.sapGraphStep.bind(this)
-        ]));
+        this.addDialog(
+            new WaterfallDialog(WATERFALL_DIALOG, [
+                this.promptStep.bind(this),
+                this.loginStep.bind(this),
+                this.commandStep.bind(this),
+                this.processStep.bind(this),
+                this.sapGraphStep.bind(this)
+            ])
+        );
 
         this.initialDialogId = WATERFALL_DIALOG;
-    };
+    }
 
     /**
      * The run method handles the incoming activity (in the form of a TurnContext) and passes it through the dialog system.
@@ -75,7 +78,9 @@ class UserProfileDialog extends ComponentDialog {
 
     // Here we start
     async promptStep(stepContext) {
-        await stepContext.context.sendActivity('Welcome to the Microsoft Graph & SAP Graph Chatbot Demo.');
+        await stepContext.context.sendActivity(
+            'Welcome to the Microsoft Graph & SAP Graph Chatbot Demo.'
+        );
         return await stepContext.beginDialog(OAUTH_PROMPT);
     }
 
@@ -85,22 +90,15 @@ class UserProfileDialog extends ComponentDialog {
         const tokenResponse = stepContext.result;
         if (tokenResponse && tokenResponse.token) {
             await stepContext.context.sendActivity('You are now logged in.');
-            return await stepContext.prompt(TEXT_PROMPT, { prompt: 'Please type \'inbox\' to display your Outlook inbox via the Microsoft Graph API or \'me\' for your profile' });
+            return await stepContext.prompt(TEXT_PROMPT, {
+                prompt:
+                    "Please type 'inbox' to display your Outlook inbox via the Microsoft Graph API or 'me' for your profile"
+            });
         }
-        await stepContext.context.sendActivity('Login was not successful please try again.');
+        await stepContext.context.sendActivity(
+            'Login was not successful please try again.'
+        );
         return await stepContext.endDialog();
-    }
-
-    async actionStep(step) {
-        // Get the token from the previous step. Note that we could also have gotten the
-        // token directly from the prompt itself. There is an example of this in the next method.
-        const tokenResponse = step.result;
-        if (tokenResponse.token) {
-            await step.context.sendActivity('You are now logged in.');
-            return await step.prompt(TEXT_PROMPT, { prompt: 'Please type \'inbox\' for work items in your inbox and \'me\' for your profile)' });
-        }
-        await step.context.sendActivity('Login was not successful please try again.');
-        return await step.endDialog();
     }
 
     async commandStep(step) {
@@ -135,77 +133,93 @@ class UserProfileDialog extends ComponentDialog {
                     await OAuthHelpers.listMe(step.context, tokenResponse);
                     break;
 
-                // This case is relevant for the hands-on lab. Search in the inbox via MS Graph
+                    // This case is relevant for the hands-on lab. Search in the inbox via MS Graph
                 case 'inbox':
                     await OAuthHelpers.listRecentMail(step.context, tokenResponse);
                     break;
                 default:
-                    await step.context.sendActivity(`Your token is ${ tokenResponse.token }`);
+                    await step.context.sendActivity(
+                        `Your token is ${ tokenResponse.token }`
+                    );
                 }
-                return await step.prompt(TEXT_PROMPT, { prompt: 'Please type the customer name and lastname for displaying the open sales orders' });
+                return await step.prompt(TEXT_PROMPT, {
+                    prompt:
+                        'Please type the order number for displaying the sales order details'
+                });
             }
         } else {
-            await step.context.sendActivity('We couldn\'t log you in. Please try again later.');
+            await step.context.sendActivity(
+                "We couldn't log you in. Please try again later."
+            );
         }
 
         return await step.endDialog();
     }
 
-    // Get the data from the SAP Graph
     async sapGraphStep(step) {
-        const parts = (step.result || '').split(' ');
+        try {
+            const parts = (step.result || '').split(' ');
 
-        var simpleSAPGraphClient = new SimpleSAPGraphClient();
+            const simpleSAPClient = process.env.UseSAPGraph.toLowerCase() === 'true'
+                ? new SimpleSAPGraphClient()
+                : new SimpleSAPAPIHubClient();
 
-        // For demo purposes just search via lastname.
-        const customers = await simpleSAPGraphClient.getCustomersByLastName(parts[1]);
+            // Example Graph -> 10, API Hub -> 95644
+            const salesOrders = await simpleSAPClient.getOrderByOrderNumber(parts[0]);
+            const customer = await simpleSAPClient.getCustomerBySalesOrder(
+                salesOrders[0]
+            ); // for demo purposes only first sales order is considered
 
-        // ToDo: Search by unique user mail address. For demo select the first search result
-        var customer = customers.value[0];
+            // TODO: error handling if no salesOrders were found
+            const numberOfSalesOrders = salesOrders.length;
 
-        // Store the customer Id to search for sales orders via ID
-        var customerId = customers.value[0].id;
+            // Create a hero card and loop over graph result set
+            const reply = {
+                attachments: [],
+                attachmentLayout: AttachmentLayoutTypes.List
+            };
+            for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
+                const salesOrder = salesOrders[cnt];
 
-        await step.context.sendActivity(`The id for customer : ${ customer.firstName } ${ customer.lastName } in SAP master data is ${ customer.id }. \n\n Now searching for this customers sales order in SAP \n\n`);
+                // get Sales Order Adaptive Card JSON Template and adjust it according to the items we have in Sales Order
+                salesOrderAdaptiveCard.body[2].columns = AdaptiveCardsHelper.getItemsTable(
+                    salesOrder.items
+                );
 
-        const salesOrders = await simpleSAPGraphClient.getSalesOrderForCustomerId(customerId);
+                // decide which color to use depending of the Sales Order status
+                const statusColor = SAPGraphHelper.getColorByStatusCode(
+                    salesOrder.processingStatus.code
+                );
 
-        // ToDo: error handling if no salesOrders were found
-        const numberOfSalesOrders = salesOrders.value.length;
+                const template = new AdaptiveCardTemplating.Template(
+                    salesOrderAdaptiveCard
+                );
 
-        // Create a hero card and loop over graph result set
-        const reply = { attachments: [], attachmentLayout: AttachmentLayoutTypes.List };
-        for (let cnt = 0; cnt < numberOfSalesOrders; cnt++) {
-            const salesOrder = salesOrders.value[cnt];
+                const card = template.expand({
+                    $root: {
+                        salesOrderID: salesOrder.displayId,
+                        customerID: customer.displayId,
+                        distributionChannel: salesOrder.distributionChannel.name,
+                        division: salesOrder.division.name,
+                        orderDate: salesOrder.orderDate,
+                        netAmount: salesOrder.netAmount,
+                        currency: salesOrder.currency.code,
+                        statusText: salesOrder.processingStatus.name,
+                        statusColor: statusColor,
+                        contactName: customer.organization.nameDetails.formattedOrgNameLine1, // TODO: find a customer <> Organization
+                        contactPhoneNumber: customer.addressData[0].phoneNumbers[0].number
+                    }
+                });
 
-            // get Sales Order Adaptive Card JSON Template and adjust it according to the items we have in Sales Order
-            salesOrderAdaptiveCard.body[2].columns = AdaptiveCardsHelper.getItemsTable(salesOrder.items);
+                const cardInBotFormat = CardFactory.adaptiveCard(card);
 
-            // decide which color to use depending of the Sales Order status
-            const statusColor = SAPGraphHelper.getColorByStatusCode(salesOrder.status.code);
-
-            const template = new AdaptiveCardTemplating.Template(salesOrderAdaptiveCard);
-            const card = template.expand({
-                $root: {
-                    salesOrderID: salesOrder.id,
-                    customerID: salesOrder.customerID,
-                    distributionChannel: salesOrder.distributionChannel.name,
-                    division: salesOrder.division.name,
-                    orderDate: salesOrder.orderDate,
-                    netAmount: salesOrder.netAmount,
-                    currency: salesOrder.currency.code,
-                    taxAmount: salesOrder.taxAmount,
-                    grossAmount: salesOrder.grossAmount,
-                    statusText: salesOrder.status.name,
-                    statusColor: statusColor
-                }
-            });
-
-            const cardInBotFormat = CardFactory.adaptiveCard(card);
-
-            reply.attachments.push(cardInBotFormat);
+                reply.attachments.push(cardInBotFormat);
+            }
+            await step.context.sendActivity(reply);
+        } catch (error) {
+            console.log(error);
+            await step.context.sendActivity('Accessing data from SAP was not possible.');
         }
-        await step.context.sendActivity(reply);
 
         return await step.endDialog();
     }
