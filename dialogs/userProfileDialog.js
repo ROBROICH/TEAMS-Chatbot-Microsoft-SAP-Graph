@@ -195,9 +195,6 @@ class UserProfileDialog extends ComponentDialog {
                     salesOrderAdaptiveCard
                 );
 
-                console.log('Customer phone Numbers: ');
-
-                console.log(customer.addressData[0].phoneNumbers);
                 const card = template.expand({
                     $root: {
                         salesOrderID: salesOrder.displayId,
