@@ -25,7 +25,7 @@
                 },
                 {
                     "title": "OrderDate: ",
-                    "value": "{{DATE(${orderDate},SHORT)}}"
+                    "value": "${orderDate}"
                 },
                 {
                     "title": "Net Amount:",

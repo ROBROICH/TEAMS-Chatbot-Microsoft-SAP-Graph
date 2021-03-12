@@ -180,7 +180,7 @@ class UserProfileDialog extends ComponentDialog {
             const card = template.expand({
                 $root: {
                     salesOrderID: salesOrder.displayId,
-                    customerID: customer.displayId, // salesOrder.customer.id, // TODO: lesen vom BP und anzeigen der displayId
+                    customerID: customer.displayId,
                     distributionChannel: salesOrder.distributionChannel.name,
                     division: salesOrder.division.name,
                     orderDate: salesOrder.orderDate,
@@ -188,7 +188,7 @@ class UserProfileDialog extends ComponentDialog {
                     currency: salesOrder.currency.code,
                     statusText: salesOrder.processingStatus.name,
                     statusColor: statusColor,
-                    contactName: customer.organization.nameDetails.formattedOrgNameLine1, // TODO: find a customer <> Organization
+                    contactName: customer.organization.nameDetails.formattedOrgNameLine1,
                     contactPhoneNumber: customer.addressData[0].phoneNumbers[0].number
                     // TODO: telefonnummer
                 }
