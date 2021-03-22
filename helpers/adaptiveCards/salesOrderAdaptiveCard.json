@@ -4,6 +4,13 @@
     "version": "1.2",
     "body": [
         {
+            "type": "Image",
+            "url": "https://media3.giphy.com/media/l2RsUTEu5aIzV6DYWA/source.gif",
+            "altText": "SAP Logo",
+            "isVisible": true,
+            "separator": true
+        },
+        {
             "type": "FactSet",
             "spacing": "default",
             "facts": [

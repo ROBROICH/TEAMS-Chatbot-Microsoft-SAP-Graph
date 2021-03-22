@@ -4,6 +4,15 @@
     "version": "1.2",
     "body": [
         {
+            "type": "Image",
+            "url": "https://botframeworksamples.blob.core.windows.net/samples/OutlookLogo.jpg",
+            "altText": "Outlook Logo",
+            "isVisible": true,
+            "separator": true,
+            "size": "stretch",
+            "height": "80px"
+        },
+        {
             "type": "TextBlock",
             "size": "medium",
             "weight": "bolder",
