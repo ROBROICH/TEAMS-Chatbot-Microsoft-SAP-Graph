@@ -9,7 +9,8 @@ const {
     DialogSet,
     DialogTurnStatus,
     TextPrompt,
-    WaterfallDialog
+    WaterfallDialog,
+    ChoicePrompt,
 } = require('botbuilder-dialogs');
 
 const { OAuthHelpers } = require('../helpers/oAuthHelpers');
@@ -25,6 +26,7 @@ const OAUTH_PROMPT = 'OAuthPrompt';
 const USER_PROFILE = 'USER_PROFILE';
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 const TEXT_PROMPT = 'TEXT_PROMPT';
+const CHOICE_PROMPT = 'CHOICE_PROMPT';
 
 class UserProfileDialog extends ComponentDialog {
     // The user interaction flow is defined in the constructor
@@ -42,8 +44,10 @@ class UserProfileDialog extends ComponentDialog {
                 timeout: 300000
             })
         );
-
+        
         this.addDialog(new TextPrompt(TEXT_PROMPT));
+
+        this.addDialog(new ChoicePrompt(CHOICE_PROMPT))
 
         // Start the user interaction / waterfall dialog
         this.addDialog(
@@ -89,12 +93,12 @@ class UserProfileDialog extends ComponentDialog {
         // token directly from the prompt itself. There is an example of this in the next method.
         const tokenResponse = stepContext.result;
         if (tokenResponse && tokenResponse.token) {
-            await stepContext.context.sendActivity('You are now logged in.');
-            return await stepContext.prompt(TEXT_PROMPT, {
-                prompt:
-                    "Please type 'inbox' to display your Outlook inbox via the Microsoft Graph API or 'me' for your profile"
+            return await stepContext.prompt(CHOICE_PROMPT, {
+                    prompt:"Choose 'inbox' to display your Outlook inbox via the Microsoft Graph API or 'me' for your profile",
+                    choices: ChoiceFactory.toChoices(['Inbox', 'Me'])
             });
-        }
+        };
+
         await stepContext.context.sendActivity(
             'Login was not successful please try again.'
         );
@@ -102,17 +106,15 @@ class UserProfileDialog extends ComponentDialog {
     }
 
     async commandStep(step) {
-        step.values.command = step.result;
+        step.values.command = step.result.value;
 
         // Call the prompt again because we need the token. The reasons for this are:
         // 1. If the user is already logged in we do not need to store the token locally in the bot and worry
         // about refreshing it. We can always just call the prompt again to get the token.
         // 2. We never know how long it will take a user to respond. By the time the
         // user responds the token may have expired. The user would then be prompted to login again.
-        //
-        // There is no reason to store the token locally in the bot because we can always just call
-        // the OAuth prompt to get the token or get a new token if needed.
-        return await step.beginDialog(OAUTH_PROMPT);
+
+        return step.beginDialog(OAUTH_PROMPT);;
     }
 
     async processStep(step) {
