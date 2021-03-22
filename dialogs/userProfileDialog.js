@@ -11,6 +11,7 @@ const {
     TextPrompt,
     WaterfallDialog,
     ChoicePrompt,
+    ChoiceFactory
 } = require('botbuilder-dialogs');
 
 const { OAuthHelpers } = require('../helpers/oAuthHelpers');
