@@ -62,11 +62,6 @@ const bot = new TeamsBot(conversationState, userState, dialog);
 
 // Create HTTP server.
 const server = restify.createServer();
-console.log("Start serving static files...");
-//restify.plugins.serveStatic('resources/assets', { });
-//restify.plugins.serveStatic({
-//    directory: 'resources/assets'
-//});
 
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
