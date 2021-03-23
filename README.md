@@ -30,7 +30,8 @@ This lab is developed based on a basic theoretical business scenario with the fo
 * The customer is requesting an update about an order via email 
 * The call center agent processes the customer inquiry utilizing a chatbot in MS Teams
 * The first step of the business process is to the search the agents Outlook inbox for customer inquiries via the MS Graph API
-* After the customer is identified via the first- and last-name, the chatbot then enables the agent to search within the SAP sales order for the open order status via the SAP Graph API
+* After the sales order of a customer is identified, the chatbot then enables the agent to search with the sales order id within SAP for sales order details using the SAP Graph API
+* The chatbot returns the sales order details and with a click of a button the details the agent can call the customer out of MS Teams
 * Optional / Next step: The agent now could send an email using the MS Graph API to update the customer about the sales orders status. 
 
 Summarized: 
@@ -47,7 +48,7 @@ The first action or hands on exercise is to install the following components in 
 * [Git Client](https://git-scm.com/download)
 * [NGROK Client](https://ngrok.com/download) + Set the Windows PATH Environment Variable 
 * [Teams App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/app-studio-overview)
-* [Python](https://www.microsoft.com/en-us/p/python-38/9mssztt1n39l?activetab=pivot:overviewtab) - needed for node-gyp rebuild
+* [Python](https://www.microsoft.com/en-us/p/python-38/9mssztt1n39l?activetab=pivot:overviewtab) - needed for node-gyp rebuild   #todo Where is that needed?
 
 The example was built on top of the Bot Builder sample code-library and for development purposes, especially in regard to Azure AD configuration for demo-users, a development Microsoft 365 tenant is recommended. 
 In addition, the local Bot-Framework emulator was helpful to test bot functionality without having to deploy to Teams. 
@@ -87,7 +88,8 @@ After successful installation of the development environment and local deploymen
 The necessary steps are already described in this tutorial: 
 [Add authentication to your Teams bot](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication)
 
-Please finish this tutorial until [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code).
+Please finish this tutorial until [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) #todo and **skip section** [Create the service plan](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=dotnet%2Cdotnet-sample#create-the-service-plan).
+
 In addition go back to the app registration in Azure Active Directory and modify the API permissions: 
 ![IPGraphAPIPermission](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/IP_GRAPH_API_PERMISSIONS.png)
 In case of further customer scenarios or development concepts, these permissions for the MS Graph API access might have to be adjusted. One example to further extend this scenario would be implementing the [Microsoft Search API](https://docs.microsoft.com/en-us/graph/api/resources/search-api-overview?view=graph-rest-beta). 
@@ -95,8 +97,12 @@ As written in the tutorial the *.env configuration file must be updated with the
 ```
 MicrosoftAppId=App Id from Bot channel 
 MicrosoftAppPassword=Customer password/client secret from Bot channel 
-connectionName=Identity provider connection 
+connectionName=Identity provider connection
+...
+SAPAuthBearerToken=eyJHgbCI...
 ```
+> HINT: You can use the [public SAP Graph API bearer token for testing purposes](https://explore.graph.sap/docs/beta/api-sandbox).
+
 The .env file will be ignored by git due to the settings in the .gitignore file to avoid accedentially pushing your credentials to your code repository. 
 
 # Install and test the bot with the emulator and Teams. 
@@ -172,15 +178,17 @@ When the user logons for the first time the API permission for MS Graph must be 
 ![DEMOFLOWAD2](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD2.png)
 After successful logon and API permission authorization the Outlook Inbox of the logged on user will be displayed. In the demo the agent will look for customer e-mails asking for order statuses. 
 ![DEMOFLOWMSGRAPH](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowMSGraphQuery.png)
-The call-center agent will now pick a customer name and search for this customer’s sales order via the SAP Graph. Technically the search query will invoke two SAP Graph APIs to:
-*  Search for the SAP customer ID via first and last name.  
-*  Search for SAP sales orders based on the SAP customer ID queried previously. 
+The call-center agent will now pick a sales order id and search for details via the SAP Graph. Technically the search query will invoke two SAP Graph APIs to:
+*  Search for SAP sales order based on the sales order ID queried previously. 
+*  Search for the SAP customer details based on sales order details.  
 ![DEMOFLOWSAPGRAPH](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowSAPGraphQuery.png)
 For displaying the results of the Graph queries basic [Adaptive Cards](https://docs.microsoft.com/en-us/adaptive-cards/) were implemented. 
 
-Here the demo ends for now and as further enhancement different actions could be triggered by the call-center agent now. 
+Clicking on the call button of the sales order details card, the agent can call the customer directly out of MS Teams.
 
-One example could be sending an email with an update about the order status or a call via Teams.
+Here the demo ends for now and as further enhancement different actions could be triggered by the call-center agent. 
+
+One example could be sending an email with an update about the order status.
 
 ## Pitfall
 Up to now the bot was not pushed to Azure but the request were redirected via the NGROK to your local environment. Each time you restart NGROK the endpoint exposed via NGROK will change. Consequently, you must update the value in your Bot Channel Registration Settings i.e. in the Messaging endpoint defined there. 
@@ -190,6 +198,6 @@ As stated at the beginning of this document, the intention of this lab is to ena
 In addition, the motivation is to demonstrate how business processes based on Microsoft and SAP enterprise applications can be easily integrated within an intuitive user-interfaces like Microsoft Teams. 
 
 The following next steps are the first ideas for enhancements: 
-* SAP Graph (Beta) with currently public Bearer token
+* SAP Graph (Beta) with currently public Bearer token #todo ? already implemented
 * Improve adaptive cards layout 
 * Implement Microsoft Graph Search API to search beyond the Outlook Inbox 
