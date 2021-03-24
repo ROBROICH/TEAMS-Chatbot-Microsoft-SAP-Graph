@@ -1,0 +1,91 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "webAppName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the web app where your bot should be deployed to"
+            }
+        },
+        "microsoftAppId": {
+            "type": "string",
+            "metadata": {
+                "description": "Your AAD App Id you already used in the .env file"
+            }
+        },
+        "microsoftAppPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Your AAD App password you already used in the .env file"
+            }
+        },
+        "sapAuthBearerToken": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The SAP Graph API bearer token you already used in the .env file"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {
+        "servicePlanName": "[concat('asp-', parameters('webAppName'))]",
+        "webAppName": "[concat('app-', parameters('webAppName'))]"
+    },
+    "resources": [
+        {
+            "name": "[variables('servicePlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "B1"
+            },
+            "kind": "linux",
+            "tags": {
+                "displayName": "[variables('servicePlanName')]"
+            },
+            "properties": {
+                "name": "[variables('servicePlanName')]",
+                "reserved": true
+            }
+        },
+        {
+            "name": "[variables('webAppName')]",
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', variables('servicePlanName'))]": "Resource",
+                "displayName": "[variables('webAppName')]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
+            ],
+            "kind": "app,linux",
+            "properties": {
+                "name": "[variables('webAppName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+                "httpsOnly": false,
+                "siteConfig": {
+                    "appSettings": [
+                        {"name":"connectionName", "value":"BotTeamsAuthADv2" },
+                        {"name":"MicrosoftAppId", "value":"[parameters('microsoftAppId')]" },
+                        {"name":"MicrosoftAppPassword", "value":"[parameters('microsoftAppPassword')]" },
+                        {"name":"SAPAPIHubDestination", "value":"https://sandbox.api.sap.com/s4hanacloud" },
+                        {"name":"SAPAPIHubKey", "value":"" },
+                        {"name":"SAPAuthBearerToken", "value":"[parameters('sapAuthBearerToken')]" },
+                        {"name":"SAPGraphArea", "value":"api" },
+                        {"name":"SAPGraphInstance", "value":"sandbox.graph.sap" },
+                        {"name":"SAPGraphNamespace", "value":"sap.odm.sales" },
+                        {"name":"SAPGraphVersion", "value":"beta" },
+                        {"name":"UseSAPGraph", "value":"true" }
+                    ],
+                    "linuxFxVersion": "NODE|14-lts",
+                    "appCommandLine":"npm start"
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}

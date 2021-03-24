@@ -48,7 +48,7 @@ The first action or hands on exercise is to install the following components in 
 * [Git Client](https://git-scm.com/download)
 * [NGROK Client](https://ngrok.com/download) + Set the Windows PATH Environment Variable 
 * [Teams App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/app-studio-overview)
-* [Python](https://www.microsoft.com/en-us/p/python-38/9mssztt1n39l?activetab=pivot:overviewtab) - needed for node-gyp rebuild   #todo Where is that needed?
+* [Python](https://www.microsoft.com/en-us/p/python-38/9mssztt1n39l?activetab=pivot:overviewtab) - needed for node-gyp rebuild
 
 The example was built on top of the Bot Builder sample code-library and for development purposes, especially in regard to Azure AD configuration for demo-users, a development Microsoft 365 tenant is recommended. 
 In addition, the local Bot-Framework emulator was helpful to test bot functionality without having to deploy to Teams. 
@@ -74,7 +74,7 @@ cd .\TEAMS-Chatbot-Microsoft-SAP-Graph\
 npm install 
 npm start
 ```
-•	The command for the second terminal to start the ngrok forwarding: 
+* The command for the second terminal to start the ngrok forwarding: 
 ```
 ngrok http -host-header=rewrite 3978
 ```
@@ -88,24 +88,24 @@ After successful installation of the development environment and local deploymen
 The necessary steps are already described in this tutorial: 
 [Add authentication to your Teams bot](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication)
 
-Please finish this tutorial until [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) #todo and **skip section** [Create the service plan](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=dotnet%2Cdotnet-sample#create-the-service-plan).
+Please finish this tutorial until [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) and **skip section** [Create the service plan](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=dotnet%2Cdotnet-sample#create-the-service-plan).
 
 In addition go back to the app registration in Azure Active Directory and modify the API permissions: 
 ![IPGraphAPIPermission](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/IP_GRAPH_API_PERMISSIONS.png)
 In case of further customer scenarios or development concepts, these permissions for the MS Graph API access might have to be adjusted. One example to further extend this scenario would be implementing the [Microsoft Search API](https://docs.microsoft.com/en-us/graph/api/resources/search-api-overview?view=graph-rest-beta). 
-As written in the tutorial the *.env configuration file must be updated with the App ID and customer secret from the bot channel registration. In addition, the connectionName of the identity provider must be set. To do so copy the .env.template file to tg the .env file and put in the corresponding values
+  As written in the tutorial the `*.env` configuration file must be updated with the App ID and customer secret from the bot channel registration. In addition, the `connectionName` of the identity provider must be set. To do so copy the `.env.template` file to tg the `.env` file and put in the corresponding values
 ```
 MicrosoftAppId=App Id from Bot channel 
 MicrosoftAppPassword=Customer password/client secret from Bot channel 
 connectionName=Identity provider connection
 ...
-SAPAuthBearerToken=eyJHgbCI...
+SAPAuthBearerToken=eyJhbGciOi...
 ```
-> HINT: You can use the [public SAP Graph API bearer token for testing purposes](https://explore.graph.sap/docs/beta/api-sandbox).
+> HINT: In case the `SAPAuthBearerToken` does not work anymore you can use the [public SAP Graph API bearer token for testing purposes](https://explore.graph.sap/docs/beta/api-sandbox).
 
-The .env file will be ignored by git due to the settings in the .gitignore file to avoid accedentially pushing your credentials to your code repository. 
+The `.env` file will be ignored by git due to the settings in the .gitignore file to avoid accedentially pushing your credentials to your code repository. 
 
-# Install and test the bot with the emulator and Teams. 
+# Install and test the bot with the emulator and Teams
 To test the bot with the local bot emulator please implement this section of the tutorial: 
 *  [Test the bot using the Emulator](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#test-the-bot-using-the-emulator).
 ![BOTEMULATOR](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ChatBotEmulator.png)
@@ -193,11 +193,28 @@ One example could be sending an email with an update about the order status.
 ## Pitfall
 Up to now the bot was not pushed to Azure but the request were redirected via the NGROK to your local environment. Each time you restart NGROK the endpoint exposed via NGROK will change. Consequently, you must update the value in your Bot Channel Registration Settings i.e. in the Messaging endpoint defined there. 
 
+# Deploy your bot to azure [optional] 
+To publish your bot in Azure you need to
+1. Create an Azure App Service and set the application settings based on your current `.env` file
+
+For convenience you can use the provided ARM template to deploy and configure the app service. Just use the following Azure CLI command below:
+
+```
+az deployment group create --resource-group <name of your resource group> --template-file .\deploymentTemplates\template-appservice.json
+```
+
+
+2. Deploy your sourcecode to the app service via the Visual Studio Code extension
+3. Change the messaging endpoint in your `Bot channels Registration` to your newly created app service endpoint
+
+Now your chatbot should work, even if the service is not running locally.
+
 # Summary and next steps 
 As stated at the beginning of this document, the intention of this lab is to enable developers in extending and modifying this starter implementation. 
 In addition, the motivation is to demonstrate how business processes based on Microsoft and SAP enterprise applications can be easily integrated within an intuitive user-interfaces like Microsoft Teams. 
 
-The following next steps are the first ideas for enhancements: 
-* SAP Graph (Beta) with currently public Bearer token #todo ? already implemented
-* Improve adaptive cards layout 
-* Implement Microsoft Graph Search API to search beyond the Outlook Inbox 
+The following next steps are possible ideas for enhancements: 
+* Implement Microsoft Graph Search API to search beyond the Outlook Inbox
+* Connect your on-premise SAP system using OData services or [Logic Apps](https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-overview) with the [On-premises Data Gateway](https://docs.microsoft.com/en-us/data-integration/gateway/service-gateway-onprem)
+* Enhance the dialogs and make it more stable and usefull
+* Use the [LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/what-is-luis) service to add intelligence to your bot
