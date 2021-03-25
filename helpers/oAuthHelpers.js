@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
-const { SimpleGraphClient } = require('../simple-graph-client');
+const { SimpleMSGraphClient } = require('../simple-MS-graph-client');
 const mailAdaptiveCard = require('../helpers/adaptiveCards/mailAdaptiveCard.json');
 const AdaptiveCardTemplating = require('adaptivecards-templating');
 
@@ -27,7 +27,7 @@ class OAuthHelpers {
             throw new Error('OAuthHelpers.sendMail(): `tokenResponse` cannot be undefined.');
         }
 
-        const client = new SimpleGraphClient(tokenResponse.token);
+        const client = new SimpleMSGraphClient(tokenResponse.token);
         const me = await client.getMe();
 
         await client.sendMail(
@@ -52,7 +52,7 @@ class OAuthHelpers {
         }
 
         // Pull in the data from Microsoft Graph.
-        const client = new SimpleGraphClient(tokenResponse.token);
+        const client = new SimpleMSGraphClient(tokenResponse.token);
         const me = await client.getMe();
 
         await context.sendActivity(`You are ${ me.displayName }.`);
@@ -71,7 +71,7 @@ class OAuthHelpers {
             throw new Error('OAuthHelpers.listRecentMail(): `tokenResponse` cannot be undefined.');
         }
 
-        var client = new SimpleGraphClient(tokenResponse.token);
+        var client = new SimpleMSGraphClient(tokenResponse.token);
         var response = await client.getRecentMail();
         var messages = response.value;
         if (Array.isArray(messages)) {
@@ -120,7 +120,7 @@ class OAuthHelpers {
         }
 
         // Pull in the data from Microsoft Graph.
-        const client = new SimpleGraphClient(tokenResponse.token);
+        const client = new SimpleMSGraphClient(tokenResponse.token);
 
         // Hard-Coded search for orders
         // ToDo: Use Search API instead of recent mails. (Next version)

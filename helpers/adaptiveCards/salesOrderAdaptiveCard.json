@@ -4,6 +4,13 @@
     "version": "1.2",
     "body": [
         {
+            "type": "Image",
+            "url": "https://media3.giphy.com/media/l2RsUTEu5aIzV6DYWA/source.gif",
+            "altText": "SAP Logo",
+            "isVisible": true,
+            "separator": true
+        },
+        {
             "type": "FactSet",
             "spacing": "default",
             "facts": [
@@ -25,19 +32,11 @@
                 },
                 {
                     "title": "OrderDate: ",
-                    "value": "{{DATE(${orderDate},SHORT)}}"
+                    "value": "${orderDate}"
                 },
                 {
                     "title": "Net Amount:",
                     "value": "${netAmount} ${currency}"
-                },
-                {
-                    "title": "Tax Amount",
-                    "value": "${taxAmount} ${currency}"
-                },
-                {
-                    "title": "Gross Amount",
-                    "value": "${grossAmount} ${currency}"
                 }
             ],
             "separator": true
@@ -54,6 +53,13 @@
 
             ],
             "separator": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "title": "Call ${contactName}",
+            "url": "tel:${contactPhoneNumber}"
         }
     ]
 }
