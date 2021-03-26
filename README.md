@@ -10,10 +10,10 @@ Both Graph solutions enable developers to efficiently integrate business applica
 Further resources about the Microsoft- and SAP-Graph: 
 * [SAP Graph BETA](https://beta.graph.sap/)
 
-![SAPGRAPH](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/SAP_GRAPH.png)
+![SAPGRAPH](./resources/SAP_GRAPH.png)
 * [Microsoft Graph](https://developer.microsoft.com/en-us/graph/graph-explorer)
 
-![MICROSOFTGRAPH](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/MICROSOFT_GRAPH.png)
+![MICROSOFTGRAPH](./resources/MICROSOFT_GRAPH.png)
 
 When implementing the Microsoft Graph demonstrating the Azure Active Directory (AD) integration with functionality like SSO and API permissions is intended as an important aspect of this exercise. 
 
@@ -21,7 +21,7 @@ Currently Azure AD integration with the SAP Graph (BETA) is not possible, a publ
 
 Furthermore, this hands-on tutorial will describe the complete setup of the development environment from scratch.
 
-A summary of the scenario as PDF can be found here: [Summary](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/2020730_GRAPH_CHATBOT.pdf)
+A summary of the scenario as PDF can be found here: [Summary](./resources/2020730_GRAPH_CHATBOT.pdf)
 
 This setup and corresponding documentation are intended for enabling developers to extend this example with their own ideas or customer scenarios. 
 # Business scenario and context
@@ -38,7 +38,7 @@ Summarized:
 
 The purpose of this lab is to demonstrate the simple integration of Microsoft and SAP business- and process-data utilizing modern and open APIs. 
 
-![BusinessScenario](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ScenarioOverview.png)
+![BusinessScenario](./resources/ScenarioOverview.png)
 
 # Setup of the development environment 
 In order to run the lab and even more important to further extend this example, an essential aspect and exercise of this lab is to setup the development environment. Programming-environment and -language is Node.JS, therefore Java-Script knowledge is recommended. 
@@ -79,7 +79,7 @@ npm start
 ngrok http -host-header=rewrite 3978
 ```
 After the successful implementation of the steps the result should look as following: 
-![VisualStudioCode](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/VisualStudioCodeConfig.png)
+![VisualStudioCode](./resources/VisualStudioCodeConfig.png)
 
 Please note the ngrok HTTPS forwarding URL(https:/xxxx.ngrok.io) as marked on the screenshot above.  
 
@@ -91,7 +91,7 @@ The necessary steps are already described in this tutorial:
 Please finish this tutorial until [Prepare the bot sample code](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#prepare-the-bot-sample-code) and **skip section** [Create the service plan](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=dotnet%2Cdotnet-sample#create-the-service-plan).
 
 In addition go back to the app registration in Azure Active Directory and modify the API permissions: 
-![IPGraphAPIPermission](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/IP_GRAPH_API_PERMISSIONS.png)
+![IPGraphAPIPermission](./resources/IP_GRAPH_API_PERMISSIONS.png)
 In case of further customer scenarios or development concepts, these permissions for the MS Graph API access might have to be adjusted. One example to further extend this scenario would be implementing the [Microsoft Search API](https://docs.microsoft.com/en-us/graph/api/resources/search-api-overview?view=graph-rest-beta). 
   As written in the tutorial the `*.env` configuration file must be updated with the App ID and customer secret from the bot channel registration. In addition, the `connectionName` of the identity provider must be set. To do so copy the `.env.template` file to tg the `.env` file and put in the corresponding values
 ```
@@ -108,7 +108,7 @@ The `.env` file will be ignored by git due to the settings in the .gitignore fil
 # Install and test the bot with the emulator and Teams
 To test the bot with the local bot emulator please implement this section of the tutorial: 
 *  [Test the bot using the Emulator](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#test-the-bot-using-the-emulator).
-![BOTEMULATOR](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/ChatBotEmulator.png)
+![BOTEMULATOR](./resources/ChatBotEmulator.png)
 
 *  [Testing the bot locally in Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication?tabs=node-js%2Cdotnet-sample#testing-the-bot-locally-in-teams)
 
@@ -168,20 +168,20 @@ After finishing the two section above the TeamsAppManifest/manifest.json will be
 
 ```
 After uploading the manifest.json file, the bot configuration in the Teams App Studio will look as following: 
-![TEAMSAPPSTUDIO](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/TEAMS_APP_STUDIO.png)
+![TEAMSAPPSTUDIO](./resources/TEAMS_APP_STUDIO.png)
 
 # Demo-flow and API consumption
 After successful local testing in Teams the demo-flow will be as described below. 
 ## Azure AD logon and granting API permission for MS Graph 
 When the user logons for the first time the API permission for MS Graph must be granted by the user: 
-![DEMOFLOWAD1](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD1.png)
-![DEMOFLOWAD2](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowAD2.png)
+![DEMOFLOWAD1](./resources/DemoFlowAD1.png)
+![DEMOFLOWAD2](./resources/DemoFlowAD2.png)
 After successful logon and API permission authorization the Outlook Inbox of the logged on user will be displayed. In the demo the agent will look for customer e-mails asking for order statuses. 
-![DEMOFLOWMSGRAPH](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowMSGraphQuery.png)
+![DEMOFLOWMSGRAPH](./resources/DemoFlowMSGraphQuery.png)
 The call-center agent will now pick a sales order id and search for details via the SAP Graph. Technically the search query will invoke two SAP Graph APIs to:
 *  Search for SAP sales order based on the sales order ID queried previously. 
 *  Search for the SAP customer details based on sales order details.  
-![DEMOFLOWSAPGRAPH](https://github.com/ROBROICH/TEAMS-Chatbot-Microsoft-SAP-Graph/blob/master/resources/DemoFlowSAPGraphQuery.png)
+![DEMOFLOWSAPGRAPH](./resources/DemoFlowSAPGraphQuery.png)
 For displaying the results of the Graph queries basic [Adaptive Cards](https://docs.microsoft.com/en-us/adaptive-cards/) were implemented. 
 
 Clicking on the call button of the sales order details card, the agent can call the customer directly out of MS Teams.
