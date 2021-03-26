@@ -210,7 +210,7 @@ class UserProfileDialog extends ComponentDialog {
                         statusText: salesOrder.processingStatus.name,
                         statusColor: statusColor,
                         contactName: customer.organization.nameDetails.formattedOrgNameLine1, // TODO: find a customer <> Organization
-                        contactPhoneNumber: customer.addressData[0].phoneNumbers[0].number
+                        contactPhoneNumber: customer.addressData[0].phoneNumbers.length ? customer.addressData[0].phoneNumbers[0].number : 490815
                     }
                 });
 

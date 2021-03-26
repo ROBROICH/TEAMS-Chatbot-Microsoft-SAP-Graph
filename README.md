@@ -205,7 +205,7 @@ az deployment group create --resource-group <name of your resource group> --temp
 
 
 2. Deploy your sourcecode to the app service via the Visual Studio Code extension
-3. Change the messaging endpoint in your `Bot channels Registration` to your newly created app service endpoint
+3. Change the messaging endpoint in your `Bot Channels Registration` to your newly created app service endpoint
 
 Now your chatbot should work, even if the service is not running locally.
 
