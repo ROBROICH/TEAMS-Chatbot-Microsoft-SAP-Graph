@@ -12,6 +12,7 @@ let {
 
 /**
  * Wrapperclass for the SAP API Hub.
+ * Fallback solution in case the SAP Graph API does not work.
  */
 class SimpleSAPAPIHubClient {
   async getCustomerBySalesOrder(salesOrder) {
